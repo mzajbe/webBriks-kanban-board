@@ -91,14 +91,7 @@ export function KanbanColumn({
           />
         ))}
 
-        {/* Add Task Button at bottom of column */}
-        <button
-          onClick={() => onAddTask && onAddTask(column.id)}
-          className="flex w-full items-center justify-center gap-1.5 rounded-2xl border border-dashed border-slate-300/80 bg-white/40 py-2.5 text-xs font-medium text-slate-500 hover:bg-white hover:text-slate-800 hover:border-slate-400 transition-all duration-200"
-        >
-          <Plus className="h-3.5 w-3.5" />
-          <span>Add task</span>
-        </button>
+        
       </div>
     </div>
   );
