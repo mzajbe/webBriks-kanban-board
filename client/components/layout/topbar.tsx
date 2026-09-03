@@ -59,32 +59,11 @@ export function Topbar({ onOpenMobileSidebar, onNewTaskClick }: TopbarProps) {
 
       {/* Right side: Search, indicators, actions, user profile */}
       <div className="flex items-center gap-2 md:gap-2.5">
-        {/* Global Search Pill Bar (Desktop) */}
-        <div className="hidden xl:flex items-center gap-2 rounded-full border border-slate-200/90 bg-slate-50/70 px-3 py-1.5 text-xs text-slate-400 hover:border-slate-300 transition-colors w-52 cursor-pointer">
-          <Search className="h-3.5 w-3.5 text-slate-400 shrink-0" />
-          <span className="truncate flex-1 text-[11px]">Search tasks, boards...</span>
-          <kbd className="hidden sm:inline-flex h-4 items-center rounded border border-slate-200 bg-white px-1 text-[9px] font-medium text-slate-400">
-            ⌘K
-          </kbd>
-        </div>
+        
 
-        {/* Viewing Indicator */}
-        <div className="hidden lg:flex items-center gap-1.5 text-xs text-slate-400">
-          <span className="text-[11px]">Viewing</span>
-          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-white text-[10px] font-bold">
-            DS
-          </div>
-        </div>
+        
 
-        {/* Icon Actions */}
-        <div className="hidden md:flex items-center gap-1">
-          <button className="flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors">
-            <Activity className="h-4 w-4" />
-          </button>
-          <button className="flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors">
-            <Users className="h-4 w-4" />
-          </button>
-        </div>
+        
 
         {/* Action Pill Buttons */}
         <div className="flex items-center gap-1.5">

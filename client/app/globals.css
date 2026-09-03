@@ -32,9 +32,71 @@ body {
   background: rgba(148, 163, 184, 0.9);
 }
 
-/* Utilities */
+/* Neumorphism Design Utilities */
 @layer utilities {
   .shadow-2xs {
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+  }
+
+  .neu-bg {
+    background-color: #eef2f6;
+  }
+
+  .neu-card {
+    background-color: #eef2f6;
+    box-shadow: 14px 14px 28px #c8d3e0, -14px -14px 28px #ffffff;
+  }
+
+  .neu-card-sm {
+    background-color: #eef2f6;
+    box-shadow: 6px 6px 14px #c8d3e0, -6px -6px 14px #ffffff;
+  }
+
+  .neu-input {
+    background-color: #eef2f6;
+    box-shadow: inset 3.5px 3.5px 7px #c5d0de, inset -3.5px -3.5px 7px #ffffff;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .neu-input:focus-within, .neu-input:focus {
+    box-shadow: inset 5px 5px 9px #b8c5d5, inset -5px -5px 9px #ffffff, 0 0 0 1.5px rgba(27, 67, 50, 0.5);
+  }
+
+  .neu-btn {
+    background-color: #eef2f6;
+    box-shadow: 5px 5px 10px #c5d0de, -5px -5px 10px #ffffff;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .neu-btn:hover {
+    box-shadow: 7px 7px 14px #b8c5d5, -7px -7px 14px #ffffff;
+    transform: translateY(-1px);
+  }
+
+  .neu-btn:active {
+    box-shadow: inset 3px 3px 6px #c5d0de, inset -3px -3px 6px #ffffff;
+    transform: translateY(0);
+  }
+
+  .neu-btn-primary {
+    background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%);
+    box-shadow: 6px 6px 14px rgba(27, 67, 50, 0.32), -6px -6px 14px #ffffff;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .neu-btn-primary:hover {
+    background: linear-gradient(135deg, #143627 0%, #245740 100%);
+    box-shadow: 8px 8px 18px rgba(27, 67, 50, 0.4), -8px -8px 18px #ffffff;
+    transform: translateY(-1px);
+  }
+
+  .neu-btn-primary:active {
+    box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.4);
+    transform: translateY(0);
+  }
+
+  .neu-pill-active {
+    background-color: #eef2f6;
+    box-shadow: inset 3px 3px 6px #c5d0de, inset -3px -3px 6px #ffffff;
   }
 }
