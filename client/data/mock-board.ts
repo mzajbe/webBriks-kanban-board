@@ -137,6 +137,7 @@ export const initialBoard: Board = {
       description: 'Ensure security policies and role checks are validated on edge routes.',
       priority: 'URGENT',
       columnId: 'todo',
+      position: 0,
       subtasks: { completed: 1, total: 4 },
       commentsCount: 3,
     },
@@ -146,6 +147,7 @@ export const initialBoard: Board = {
       description: 'Conduct thorough unit, integration, and security testing of all authentication and authorization flows.',
       priority: 'URGENT',
       columnId: 'todo',
+      position: 1,
       subtasks: { completed: 0, total: 3 },
       commentsCount: 5,
     },
@@ -155,6 +157,7 @@ export const initialBoard: Board = {
       description: 'Create the front-end page allowing users to review cart contents, adjust quantities, and initiate checkout.',
       priority: 'HIGH',
       columnId: 'todo',
+      position: 2,
       subtasks: { completed: 2, total: 5 },
       commentsCount: 1,
     },
@@ -164,6 +167,7 @@ export const initialBoard: Board = {
       description: 'Build the forms and logic for users to input or select shipping addresses, choose from available delivery options.',
       priority: 'HIGH',
       columnId: 'todo',
+      position: 3,
       subtasks: { completed: 0, total: 2 },
     },
     {
@@ -172,6 +176,7 @@ export const initialBoard: Board = {
       description: 'Configure Redis token bucket algorithm for public endpoints to prevent DDOS attacks.',
       priority: 'HIGH',
       columnId: 'todo',
+      position: 4,
       assignee: teamMembers[2], // Sarah Chen
       dueDate: 'Aug 12',
     },
@@ -181,6 +186,7 @@ export const initialBoard: Board = {
       description: 'Write zero-downtime migration scripts for Postgres DB with rollbacks.',
       priority: 'MEDIUM',
       columnId: 'todo',
+      position: 5,
       assignee: teamMembers[3], // Marcus Vance
       dueDate: 'Aug 15',
     },
@@ -190,6 +196,7 @@ export const initialBoard: Board = {
       description: 'Integrate Sentry SDK across frontend and API handlers for real-time crash reports.',
       priority: 'LOW',
       columnId: 'todo',
+      position: 6,
       assignee: teamMembers[4], // Elena Rostova
     },
     {
@@ -198,6 +205,7 @@ export const initialBoard: Board = {
       description: 'Refactor drawer menu transitions for smooth 60fps animations on touch devices.',
       priority: 'MEDIUM',
       columnId: 'todo',
+      position: 7,
     },
     {
       id: 'task-9',
@@ -205,6 +213,7 @@ export const initialBoard: Board = {
       description: 'Verify keyboard navigation and ARIA attributes for all modal components.',
       priority: 'LOW',
       columnId: 'todo',
+      position: 8,
       assignee: teamMembers[2], // Sarah Chen
     },
     {
@@ -213,6 +222,7 @@ export const initialBoard: Board = {
       description: 'Design slide-over panel for user activity notifications and real-time alerts.',
       priority: 'HIGH',
       columnId: 'todo',
+      position: 9,
     },
     {
       id: 'task-11',
@@ -220,6 +230,7 @@ export const initialBoard: Board = {
       description: 'Implement client-side data export features for executive summaries.',
       priority: 'LOW',
       columnId: 'todo',
+      position: 10,
     },
     {
       id: 'task-12',
@@ -227,6 +238,7 @@ export const initialBoard: Board = {
       description: 'Build queue consumer to handle incoming third-party event webhooks with retry logic.',
       priority: 'MEDIUM',
       columnId: 'todo',
+      position: 11,
       assignee: teamMembers[3], // Marcus Vance
     },
 
@@ -237,6 +249,7 @@ export const initialBoard: Board = {
       description: 'Review Q3 feature requests with product managers and prioritize core user flows.',
       priority: 'MEDIUM',
       columnId: 'in_progress',
+      position: 0,
       assignee: currentUser, // Alex Rivera
       subtasks: { completed: 4, total: 6 },
     },
@@ -246,6 +259,7 @@ export const initialBoard: Board = {
       description: 'Configure OAuth 2.0 and JWT token storage with secure HTTP-only cookie headers.',
       priority: 'HIGH',
       columnId: 'in_progress',
+      position: 1,
       assignee: teamMembers[1], // Maya Chen
       dueDate: 'Jul 24',
     },
@@ -255,6 +269,7 @@ export const initialBoard: Board = {
       description: 'Synthesize insights from 15 customer discovery calls into key product improvement themes.',
       priority: 'HIGH',
       columnId: 'in_progress',
+      position: 2,
       assignee: currentUser, // Alex Rivera
       dueDate: 'Jul 12',
     },
@@ -264,6 +279,7 @@ export const initialBoard: Board = {
       description: 'Draft slides covering Q4 strategic initiatives, engineering velocity, and resource allocation.',
       priority: 'URGENT',
       columnId: 'in_progress',
+      position: 3,
       assignee: currentUser, // Alex Rivera
       dueDate: 'Jul 5',
     },
@@ -273,6 +289,7 @@ export const initialBoard: Board = {
       description: 'Present prioritized features and engineering estimates to executive leadership.',
       priority: 'MEDIUM',
       columnId: 'in_progress',
+      position: 4,
       assignee: currentUser, // Alex Rivera
     },
 
@@ -283,6 +300,7 @@ export const initialBoard: Board = {
       description: 'Pricing experiment plan — details and acceptance criteria.',
       priority: 'LOW',
       columnId: 'review',
+      position: 0,
       assignee: teamMembers[1], // Maya Chen
       dueDate: 'Jun 29',
     },
@@ -292,6 +310,7 @@ export const initialBoard: Board = {
       description: 'Define success metrics — details and acceptance criteria.',
       priority: 'HIGH',
       columnId: 'review',
+      position: 1,
       assignee: currentUser, // Alex Rivera
       dueDate: 'Tomorrow',
     },
@@ -303,6 +322,7 @@ export const initialBoard: Board = {
       description: 'Benchmark feature set against top 3 market competitors.',
       priority: 'URGENT',
       columnId: 'done',
+      position: 0,
       dueDate: 'Jul 7',
     },
     {
@@ -311,6 +331,7 @@ export const initialBoard: Board = {
       description: 'Categorize early tester feedback into bugs and feature requests.',
       priority: 'LOW',
       columnId: 'done',
+      position: 1,
       assignee: currentUser, // Alex Rivera
     },
     {
@@ -319,6 +340,7 @@ export const initialBoard: Board = {
       description: 'Stakeholder alignment — details and acceptance criteria.',
       priority: 'MEDIUM',
       columnId: 'done',
+      position: 2,
       dueDate: 'Jun 28',
     },
   ],

@@ -1,6 +1,6 @@
 export type Priority = 'URGENT' | 'HIGH' | 'MEDIUM' | 'LOW';
 
-export type ColumnId = 'todo' | 'in_progress' | 'review' | 'done';
+export type ColumnId = string;
 
 export interface User {
   id: string;
@@ -17,6 +17,7 @@ export interface Task {
   description: string;
   priority: Priority;
   columnId: ColumnId;
+  position: number;
   assignee?: User;
   dueDate?: string;
   tags?: string[];

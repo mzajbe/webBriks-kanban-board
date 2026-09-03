@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ColumnId, Priority, Task, User } from "@/types/kanban";
+import { ColumnId, Priority, Task } from "@/types/kanban";
 import { teamMembers } from "@/data/mock-board";
 
 interface NewTaskDialogProps {
@@ -12,7 +12,7 @@ interface NewTaskDialogProps {
   onOpenChange: (open: boolean) => void;
   defaultColumnId?: ColumnId;
   taskToEdit?: Task | null;
-  onSaveTask: (taskData: Omit<Task, "id"> & { id?: string }) => void;
+  onSaveTask: (taskData: Omit<Task, "id" | "position"> & { id?: string }) => void;
 }
 
 export function NewTaskDialog({

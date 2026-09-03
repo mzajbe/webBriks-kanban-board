@@ -1,7 +1,9 @@
 "use client";
 
 import React from "react";
-import { Calendar, MoreHorizontal, MessageSquare, CheckSquare } from "lucide-react";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { Calendar, MoreHorizontal, MessageSquare, CheckSquare, GripVertical } from "lucide-react";
 import { Task } from "@/types/kanban";
 import { TaskPriority } from "@/components/kanban/task-priority";
 import { TaskAssignee } from "@/components/kanban/task-assignee";
@@ -16,58 +18,99 @@ import {
 interface TaskCardProps {
   task: Task;
   onMoveColumn?: (taskId: string, targetColumnId: string) => void;
-  onDeleteTask?: (taskId: string) => void;
+  onDeleteTask?: (task: Task) => void;
   onEditTask?: (task: Task) => void;
+  isOverlay?: boolean;
 }
 
-export function TaskCard({ task, onMoveColumn, onDeleteTask, onEditTask }: TaskCardProps) {
+export function TaskCard({
+  task,
+  onMoveColumn,
+  onDeleteTask,
+  onEditTask,
+  isOverlay = false,
+}: TaskCardProps) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: task.id,
+    disabled: isOverlay,
+  });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
   const isUrgent = task.priority === "URGENT";
 
   return (
     <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
       onClick={() => onEditTask && onEditTask(task)}
-      className="group relative flex flex-col rounded-2xl border border-slate-200/80 bg-white p-4 shadow-xs transition-all duration-200 hover:shadow-md hover:border-slate-300 cursor-pointer select-none"
+      className={cn(
+        "group relative flex flex-col rounded-2xl border border-slate-200/80 bg-white p-4 shadow-xs transition-all duration-200 hover:shadow-md hover:border-slate-300 cursor-grab active:cursor-grabbing select-none",
+        isDragging && "opacity-30 border-dashed border-emerald-500 bg-emerald-50/20 shadow-none",
+        isOverlay && "shadow-xl border-emerald-500 ring-2 ring-emerald-500/20 rotate-1 scale-[1.02] cursor-grabbing"
+      )}
     >
-      {/* Top Header Row: Priority Badge + Actions Menu */}
+      {/* Top Header Row: Priority Badge + Drag Handle / Actions Menu */}
       <div className="flex items-center justify-between gap-2">
         <TaskPriority priority={task.priority} />
-        
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
-            <button className="opacity-0 group-hover:opacity-100 flex h-6 w-6 items-center justify-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-opacity">
-              <MoreHorizontal className="h-3.5 w-3.5" />
-            </button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-40">
-            <DropdownMenuItem onClick={() => onEditTask && onEditTask(task)}>
-              Edit Task
-            </DropdownMenuItem>
-            {onMoveColumn && (
-              <>
-                <DropdownMenuItem onClick={() => onMoveColumn(task.id, 'todo')}>
-                  Move to Todo
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => onMoveColumn(task.id, 'in_progress')}>
-                  Move to In Progress
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => onMoveColumn(task.id, 'review')}>
-                  Move to Review
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => onMoveColumn(task.id, 'done')}>
-                  Move to Done
-                </DropdownMenuItem>
-              </>
-            )}
-            {onDeleteTask && (
-              <DropdownMenuItem
-                className="text-rose-600 focus:text-rose-700"
-                onClick={() => onDeleteTask(task.id)}
+
+        <div className="flex items-center gap-1">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+              <button
+                onPointerDown={(e) => e.stopPropagation()}
+                className="opacity-0 group-hover:opacity-100 flex h-6 w-6 items-center justify-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-opacity"
               >
-                Delete Task
+                <MoreHorizontal className="h-3.5 w-3.5" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-44">
+              <DropdownMenuItem onClick={() => onEditTask && onEditTask(task)}>
+                Edit Task
               </DropdownMenuItem>
-            )}
-          </DropdownMenuContent>
-        </DropdownMenu>
+              {onMoveColumn && (
+                <>
+                  <DropdownMenuItem onClick={() => onMoveColumn(task.id, "todo")}>
+                    Move to Todo
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => onMoveColumn(task.id, "in_progress")}>
+                    Move to In Progress
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => onMoveColumn(task.id, "review")}>
+                    Move to Review
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => onMoveColumn(task.id, "done")}>
+                    Move to Done
+                  </DropdownMenuItem>
+                </>
+              )}
+              {onDeleteTask && (
+                <DropdownMenuItem
+                  className="text-rose-600 focus:text-rose-700 font-medium"
+                  onClick={() => onDeleteTask(task)}
+                >
+                  Delete Task
+                </DropdownMenuItem>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <div className="opacity-0 group-hover:opacity-60 text-slate-400 p-0.5 cursor-grab">
+            <GripVertical className="h-3.5 w-3.5" />
+          </div>
+        </div>
       </div>
 
       {/* Task Title */}
