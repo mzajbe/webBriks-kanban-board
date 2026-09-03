@@ -61,9 +61,23 @@ export function Topbar({ onOpenMobileSidebar, onNewTaskClick }: TopbarProps) {
       <div className="flex items-center gap-2 md:gap-2.5">
         
 
-        
+        {/* Viewing Indicator */}
+        <div className="hidden lg:flex items-center gap-1.5 text-xs text-slate-400">
+          <span className="text-[11px]">Viewing</span>
+          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-white text-[10px] font-bold">
+            DS
+          </div>
+        </div>
 
-        
+        {/* Icon Actions */}
+        <div className="hidden md:flex items-center gap-1">
+          <button className="flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors">
+            <Activity className="h-4 w-4" />
+          </button>
+          <button className="flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors">
+            <Users className="h-4 w-4" />
+          </button>
+        </div>
 
         {/* Action Pill Buttons */}
         <div className="flex items-center gap-1.5">
