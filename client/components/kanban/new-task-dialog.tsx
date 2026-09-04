@@ -1,72 +1,138 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ColumnId, Priority, Task } from "@/types/kanban";
-import { teamMembers } from "@/data/mock-board";
+import { Task, TaskPriority } from "@/types/task";
+import { Column } from "@/types/column";
+import { BoardMemberUser } from "@/types/board";
+import { createTask, updateTask } from "@/lib/api/tasks";
+import { ApiError } from "@/lib/api/client";
 
 interface NewTaskDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  defaultColumnId?: ColumnId;
+  boardId: string;
+  columns: Column[];
+  members: BoardMemberUser[];
+  defaultColumnId?: string;
   taskToEdit?: Task | null;
-  onSaveTask: (taskData: Omit<Task, "id" | "position"> & { id?: string }) => void;
+  onTaskCreated?: (newTask: Task) => void;
+  onTaskUpdated?: (updatedTask: Task) => void;
 }
 
 export function NewTaskDialog({
   open,
   onOpenChange,
-  defaultColumnId = "todo",
+  boardId,
+  columns,
+  members,
+  defaultColumnId = "",
   taskToEdit = null,
-  onSaveTask,
+  onTaskCreated,
+  onTaskUpdated,
 }: NewTaskDialogProps) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [priority, setPriority] = useState<Priority>("HIGH");
-  const [columnId, setColumnId] = useState<ColumnId>(defaultColumnId);
+  const [priority, setPriority] = useState<TaskPriority>("MEDIUM");
+  const [columnId, setColumnId] = useState<string>(defaultColumnId);
   const [assigneeId, setAssigneeId] = useState<string>("unassigned");
   const [dueDate, setDueDate] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (taskToEdit) {
       setTitle(taskToEdit.title);
       setDescription(taskToEdit.description || "");
-      setPriority(taskToEdit.priority);
+      setPriority(taskToEdit.priority || "MEDIUM");
       setColumnId(taskToEdit.columnId);
       setAssigneeId(taskToEdit.assignee ? taskToEdit.assignee.id : "unassigned");
-      setDueDate(taskToEdit.dueDate || "");
+      if (taskToEdit.dueDate) {
+        try {
+          const d = new Date(taskToEdit.dueDate);
+          setDueDate(!isNaN(d.getTime()) ? d.toISOString().split("T")[0] : taskToEdit.dueDate);
+        } catch {
+          setDueDate(taskToEdit.dueDate);
+        }
+      } else {
+        setDueDate("");
+      }
     } else {
       setTitle("");
       setDescription("");
-      setPriority("HIGH");
-      setColumnId(defaultColumnId);
+      setPriority("MEDIUM");
+      setColumnId(defaultColumnId || columns[0]?.id || "");
       setAssigneeId("unassigned");
       setDueDate("");
     }
-  }, [taskToEdit, defaultColumnId, open]);
+  }, [taskToEdit, defaultColumnId, columns, open]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title.trim()) return;
+    const trimmedTitle = title.trim();
+    if (!trimmedTitle) return;
 
-    const assignee =
-      assigneeId === "unassigned"
-        ? undefined
-        : teamMembers.find((m) => m.id === assigneeId);
+    try {
+      setIsSubmitting(true);
+      const formattedDueDate = dueDate.trim() ? new Date(dueDate.trim()).toISOString() : null;
+      const targetAssigneeId = assigneeId === "unassigned" ? null : assigneeId;
 
-    onSaveTask({
-      id: taskToEdit ? taskToEdit.id : undefined,
-      title: title.trim(),
-      description: description.trim(),
-      priority,
-      columnId,
-      assignee,
-      dueDate: dueDate.trim() || undefined,
-    });
+      if (taskToEdit) {
+        // Edit existing task
+        const res = await updateTask(taskToEdit.id, {
+          title: trimmedTitle,
+          description: description.trim() || null,
+          priority,
+          assigneeId: targetAssigneeId,
+          dueDate: formattedDueDate,
+        });
 
-    onOpenChange(false);
+        if (res.data) {
+          toast.success("Task updated successfully");
+          onTaskUpdated && onTaskUpdated(res.data);
+          onOpenChange(false);
+        }
+      } else {
+        // Create new task
+        const targetColumnId = columnId || defaultColumnId || columns[0]?.id;
+        if (!targetColumnId) {
+          toast.error("Please select a column for the task");
+          return;
+        }
+
+        const res = await createTask(boardId, {
+          columnId: targetColumnId,
+          title: trimmedTitle,
+          description: description.trim() || null,
+          priority,
+          assigneeId: targetAssigneeId,
+          dueDate: formattedDueDate,
+        });
+
+        if (res.data) {
+          toast.success("Task created successfully");
+          onTaskCreated && onTaskCreated(res.data);
+          onOpenChange(false);
+        }
+      }
+    } catch (error) {
+      if (error instanceof ApiError) {
+        toast.error(error.message);
+      } else {
+        toast.error(taskToEdit ? "Failed to update task" : "Failed to create task");
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -86,10 +152,12 @@ export function NewTaskDialog({
             </label>
             <Input
               type="text"
-              placeholder="e.g. Implement Shipping Address & Method Selection"
+              placeholder="e.g. Implement authentication module"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               className="rounded-lg text-xs"
+              disabled={isSubmitting}
+              autoFocus
               required
             />
           </div>
@@ -99,9 +167,10 @@ export function NewTaskDialog({
             <label className="text-xs font-semibold text-slate-700">Description</label>
             <textarea
               rows={3}
-              placeholder="Add key details or acceptance criteria..."
+              placeholder="Add task description or acceptance criteria..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
+              disabled={isSubmitting}
               className="flex w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700 placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-600"
             />
           </div>
@@ -112,7 +181,8 @@ export function NewTaskDialog({
               <label className="text-xs font-semibold text-slate-700">Priority</label>
               <select
                 value={priority}
-                onChange={(e) => setPriority(e.target.value as Priority)}
+                onChange={(e) => setPriority(e.target.value as TaskPriority)}
+                disabled={isSubmitting}
                 className="flex h-9 w-full rounded-lg border border-slate-200 bg-white px-3 py-1 text-xs text-slate-700 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-600 cursor-pointer"
               >
                 <option value="URGENT">URGENT</option>
@@ -122,20 +192,35 @@ export function NewTaskDialog({
               </select>
             </div>
 
-            {/* Column Status */}
-            <div className="space-y-1">
-              <label className="text-xs font-semibold text-slate-700">Status</label>
-              <select
-                value={columnId}
-                onChange={(e) => setColumnId(e.target.value as ColumnId)}
-                className="flex h-9 w-full rounded-lg border border-slate-200 bg-white px-3 py-1 text-xs text-slate-700 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-600 cursor-pointer"
-              >
-                <option value="todo">Todo</option>
-                <option value="in_progress">In Progress</option>
-                <option value="review">Review</option>
-                <option value="done">Done</option>
-              </select>
-            </div>
+            {/* Column Selection (Only in Create Mode) */}
+            {!taskToEdit ? (
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-slate-700">Column</label>
+                <select
+                  value={columnId}
+                  onChange={(e) => setColumnId(e.target.value)}
+                  disabled={isSubmitting}
+                  className="flex h-9 w-full rounded-lg border border-slate-200 bg-white px-3 py-1 text-xs text-slate-700 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-600 cursor-pointer"
+                >
+                  {columns.map((col) => (
+                    <option key={col.id} value={col.id}>
+                      {col.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            ) : (
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-slate-700">Due Date</label>
+                <Input
+                  type="date"
+                  value={dueDate}
+                  onChange={(e) => setDueDate(e.target.value)}
+                  disabled={isSubmitting}
+                  className="rounded-lg text-xs"
+                />
+              </div>
+            )}
           </div>
 
           <div className="grid grid-cols-2 gap-3">
@@ -145,28 +230,31 @@ export function NewTaskDialog({
               <select
                 value={assigneeId}
                 onChange={(e) => setAssigneeId(e.target.value)}
+                disabled={isSubmitting}
                 className="flex h-9 w-full rounded-lg border border-slate-200 bg-white px-3 py-1 text-xs text-slate-700 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-600 cursor-pointer"
               >
                 <option value="unassigned">Unassigned</option>
-                {teamMembers.map((member) => (
+                {members.map((member) => (
                   <option key={member.id} value={member.id}>
-                    {member.name}
+                    {member.name} {member.isOwner ? "(Owner)" : ""}
                   </option>
                 ))}
               </select>
             </div>
 
-            {/* Due Date */}
-            <div className="space-y-1">
-              <label className="text-xs font-semibold text-slate-700">Due Date</label>
-              <Input
-                type="text"
-                placeholder="e.g. Jul 24 or Tomorrow"
-                value={dueDate}
-                onChange={(e) => setDueDate(e.target.value)}
-                className="rounded-lg text-xs"
-              />
-            </div>
+            {/* Due Date (Create mode) */}
+            {!taskToEdit && (
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-slate-700">Due Date</label>
+                <Input
+                  type="date"
+                  value={dueDate}
+                  onChange={(e) => setDueDate(e.target.value)}
+                  disabled={isSubmitting}
+                  className="rounded-lg text-xs"
+                />
+              </div>
+            )}
           </div>
 
           <DialogFooter className="pt-3">
@@ -175,11 +263,26 @@ export function NewTaskDialog({
               variant="outline"
               size="sm"
               onClick={() => onOpenChange(false)}
+              disabled={isSubmitting}
             >
               Cancel
             </Button>
-            <Button type="submit" variant="emerald" size="sm" className="bg-[#1b4332] hover:bg-[#143627]">
-              {taskToEdit ? "Save Changes" : "Create Task"}
+            <Button
+              type="submit"
+              size="sm"
+              className="bg-[#1b4332] hover:bg-[#143627] text-white"
+              disabled={isSubmitting || !title.trim()}
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {taskToEdit ? "Saving..." : "Creating..."}
+                </>
+              ) : taskToEdit ? (
+                "Save Changes"
+              ) : (
+                "Create Task"
+              )}
             </Button>
           </DialogFooter>
         </form>

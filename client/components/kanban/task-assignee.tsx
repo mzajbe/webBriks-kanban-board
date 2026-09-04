@@ -1,12 +1,21 @@
 import React from "react";
-import { User } from "@/types/kanban";
+import { TaskAssigneeUser } from "@/types/task";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
 interface TaskAssigneeProps {
-  assignee?: User;
+  assignee?: TaskAssigneeUser | null;
   className?: string;
+}
+
+function getInitials(name?: string) {
+  if (!name) return "U";
+  const parts = name.trim().split(" ").filter(Boolean);
+  if (parts.length >= 2) {
+    return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
+  }
+  return name.slice(0, 2).toUpperCase();
 }
 
 export function TaskAssignee({ assignee, className }: TaskAssigneeProps) {
@@ -18,6 +27,8 @@ export function TaskAssignee({ assignee, className }: TaskAssigneeProps) {
     );
   }
 
+  const initials = assignee.initials || getInitials(assignee.name);
+
   return (
     <TooltipProvider>
       <Tooltip>
@@ -27,19 +38,19 @@ export function TaskAssignee({ assignee, className }: TaskAssigneeProps) {
               <AvatarFallback
                 className={cn(
                   "text-[10px] font-bold",
-                  assignee.color || "bg-slate-700 text-white"
+                  assignee.color || "bg-[#1b4332] text-white"
                 )}
               >
-                {assignee.initials}
+                {initials}
               </AvatarFallback>
             </Avatar>
-            <span className="text-[11px] font-medium text-slate-600 group-hover:text-slate-900 transition-colors">
+            <span className="text-[11px] font-medium text-slate-600 group-hover:text-slate-900 transition-colors truncate max-w-[120px]">
               {assignee.name}
             </span>
           </div>
         </TooltipTrigger>
         <TooltipContent side="top">
-          <p>{assignee.name} ({assignee.email})</p>
+          <p>{assignee.name} {assignee.email ? `(${assignee.email})` : ""}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

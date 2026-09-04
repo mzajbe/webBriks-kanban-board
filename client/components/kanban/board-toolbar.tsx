@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Search, ChevronDown, Filter, X } from "lucide-react";
+import { Search, ChevronDown, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -11,17 +11,18 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Priority } from "@/types/kanban";
-import { teamMembers } from "@/data/mock-board";
+import { TaskPriority } from "@/types/task";
+import { BoardMemberUser } from "@/types/board";
 
 interface BoardToolbarProps {
   searchQuery: string;
   onSearchChange: (query: string) => void;
-  selectedPriority: Priority | "ALL";
-  onPriorityChange: (priority: Priority | "ALL") => void;
+  selectedPriority: TaskPriority | "ALL";
+  onPriorityChange: (priority: TaskPriority | "ALL") => void;
   selectedAssigneeId: string | "ALL";
   onAssigneeChange: (assigneeId: string | "ALL") => void;
   totalTaskCount: number;
+  members?: BoardMemberUser[];
 }
 
 export function BoardToolbar({
@@ -32,11 +33,12 @@ export function BoardToolbar({
   selectedAssigneeId,
   onAssigneeChange,
   totalTaskCount,
+  members = [],
 }: BoardToolbarProps) {
   const selectedAssigneeName =
     selectedAssigneeId === "ALL"
       ? "All assignees"
-      : teamMembers.find((m) => m.id === selectedAssigneeId)?.name || "All assignees";
+      : members.find((m) => m.id === selectedAssigneeId)?.name || "All assignees";
 
   const hasActiveFilters =
     searchQuery.trim() !== "" || selectedPriority !== "ALL" || selectedAssigneeId !== "ALL";
@@ -104,9 +106,12 @@ export function BoardToolbar({
             <DropdownMenuItem onClick={() => onAssigneeChange("ALL")}>
               All assignees
             </DropdownMenuItem>
-            {teamMembers.map((member) => (
+            {members.map((member) => (
               <DropdownMenuItem key={member.id} onClick={() => onAssigneeChange(member.id)}>
                 <span className="font-semibold text-slate-900 mr-1.5">{member.name}</span>
+                {member.isOwner && (
+                  <span className="text-[10px] text-emerald-800 font-medium">(Owner)</span>
+                )}
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>

@@ -1,10 +1,9 @@
 "use client";
 
 import React from "react";
-import { useDroppable } from "@dnd-kit/core";
-import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { Plus, MoreHorizontal, Edit2, Trash2 } from "lucide-react";
-import { Column, Task } from "@/types/kanban";
+import { Column } from "@/types/column";
+import { Task } from "@/types/task";
 import { TaskCard } from "@/components/kanban/task-card";
 import { cn } from "@/lib/utils";
 import {
@@ -14,11 +13,60 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+const COLUMN_STYLES = [
+  {
+    dotColor: "bg-[#1b4332]",
+    bgTint: "bg-emerald-50/40",
+    borderTint: "border-emerald-200/80",
+    badgeBg: "bg-emerald-100",
+    badgeText: "text-emerald-800",
+  },
+  {
+    dotColor: "bg-amber-500",
+    bgTint: "bg-amber-50/40",
+    borderTint: "border-amber-200/80",
+    badgeBg: "bg-amber-100",
+    badgeText: "text-amber-800",
+  },
+  {
+    dotColor: "bg-blue-500",
+    bgTint: "bg-blue-50/40",
+    borderTint: "border-blue-200/80",
+    badgeBg: "bg-blue-100",
+    badgeText: "text-blue-800",
+  },
+  {
+    dotColor: "bg-purple-500",
+    bgTint: "bg-purple-50/40",
+    borderTint: "border-purple-200/80",
+    badgeBg: "bg-purple-100",
+    badgeText: "text-purple-800",
+  },
+  {
+    dotColor: "bg-rose-500",
+    bgTint: "bg-rose-50/40",
+    borderTint: "border-rose-200/80",
+    badgeBg: "bg-rose-100",
+    badgeText: "text-rose-800",
+  },
+  {
+    dotColor: "bg-indigo-500",
+    bgTint: "bg-indigo-50/40",
+    borderTint: "border-indigo-200/80",
+    badgeBg: "bg-indigo-100",
+    badgeText: "text-indigo-800",
+  },
+];
+
+export function getColumnStyle(position: number) {
+  return COLUMN_STYLES[Math.abs(position) % COLUMN_STYLES.length];
+}
+
 interface KanbanColumnProps {
   column: Column;
   tasks: Task[];
+  columnIndex?: number;
   onAddTask?: (columnId: string) => void;
-  onMoveColumn?: (taskId: string, targetColumnId: string) => void;
   onDeleteTask?: (task: Task) => void;
   onEditTask?: (task: Task) => void;
   onRenameColumn?: (column: Column) => void;
@@ -28,41 +76,35 @@ interface KanbanColumnProps {
 export function KanbanColumn({
   column,
   tasks,
+  columnIndex = 0,
   onAddTask,
-  onMoveColumn,
   onDeleteTask,
   onEditTask,
   onRenameColumn,
   onDeleteColumn,
 }: KanbanColumnProps) {
-  const { setNodeRef, isOver } = useDroppable({
-    id: column.id,
-  });
-
-  const taskIds = tasks.map((t) => t.id);
+  const style = getColumnStyle(column.position ?? columnIndex);
 
   return (
     <div
-      ref={setNodeRef}
       className={cn(
         "flex w-72 md:w-80 shrink-0 flex-col rounded-3xl border p-3.5 transition-all duration-200",
-        column.bgTint,
-        column.borderTint,
-        isOver && "ring-2 ring-emerald-500/40 bg-emerald-50/30 border-emerald-300 scale-[1.005]"
+        style.bgTint,
+        style.borderTint
       )}
     >
       {/* Column Header */}
       <div className="flex items-center justify-between px-1 mb-3">
         <div className="flex items-center gap-2">
-          <span className={cn("h-2.5 w-2.5 rounded-full shrink-0", column.dotColor)} />
+          <span className={cn("h-2.5 w-2.5 rounded-full shrink-0", style.dotColor)} />
           <h2 className="text-xs font-bold text-slate-900 tracking-tight">
-            {column.title}
+            {column.name}
           </h2>
           <span
             className={cn(
               "flex h-5 min-w-5 items-center justify-center rounded-full px-1.5 text-[11px] font-semibold",
-              column.badgeBg,
-              column.badgeText
+              style.badgeBg,
+              style.badgeText
             )}
           >
             {tasks.length}
@@ -72,13 +114,14 @@ export function KanbanColumn({
         <div className="flex items-center gap-0.5">
           <button
             onClick={() => onAddTask && onAddTask(column.id)}
-            className="flex h-6 w-6 items-center justify-center rounded-full text-slate-400 hover:bg-white/80 hover:text-slate-700 transition-colors"
+            className="flex h-6 w-6 items-center justify-center rounded-full text-slate-400 hover:bg-white/80 hover:text-slate-700 transition-colors cursor-pointer"
+            title="Add Task"
           >
             <Plus className="h-3.5 w-3.5" />
           </button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="flex h-6 w-6 items-center justify-center rounded-full text-slate-400 hover:bg-white/80 hover:text-slate-700 transition-colors">
+              <button className="flex h-6 w-6 items-center justify-center rounded-full text-slate-400 hover:bg-white/80 hover:text-slate-700 transition-colors cursor-pointer">
                 <MoreHorizontal className="h-3.5 w-3.5" />
               </button>
             </DropdownMenuTrigger>
@@ -100,38 +143,33 @@ export function KanbanColumn({
         </div>
       </div>
 
-      {/* Cards List & Droppable Container */}
-      <SortableContext items={taskIds} strategy={verticalListSortingStrategy}>
-        <div className="flex-1 space-y-3 min-h-[320px]">
-          {tasks.length === 0 ? (
-            <div className="flex h-48 flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200/90 bg-white/40 p-4 text-center">
-              <p className="text-xs font-semibold text-slate-500">No tasks</p>
-              <p className="text-[11px] text-slate-400 mt-0.5">Drag tasks here or create one.</p>
-              <button
-                onClick={() => onAddTask && onAddTask(column.id)}
-                className="mt-3 flex items-center gap-1 rounded-full bg-white px-3 py-1 text-xs font-semibold text-emerald-800 shadow-2xs border border-slate-200 hover:bg-slate-50 transition-colors"
-              >
-                <Plus className="h-3 w-3" />
-                <span>Add task</span>
-              </button>
-            </div>
-          ) : (
-            <>
-              {tasks.map((task) => (
-                <TaskCard
-                  key={task.id}
-                  task={task}
-                  onMoveColumn={onMoveColumn}
-                  onDeleteTask={onDeleteTask}
-                  onEditTask={onEditTask}
-                />
-              ))}
-
-              
-            </>
-          )}
-        </div>
-      </SortableContext>
+      {/* Cards List Container */}
+      <div className="flex-1 space-y-3 min-h-[320px]">
+        {tasks.length === 0 ? (
+          <div className="flex h-48 flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200/90 bg-white/40 p-4 text-center">
+            <p className="text-xs font-semibold text-slate-500">No tasks</p>
+            <p className="text-[11px] text-slate-400 mt-0.5">Add a task to get started.</p>
+            <button
+              onClick={() => onAddTask && onAddTask(column.id)}
+              className="mt-3 flex items-center gap-1 rounded-full bg-white px-3 py-1 text-xs font-semibold text-emerald-800 shadow-2xs border border-slate-200 hover:bg-slate-50 transition-colors cursor-pointer"
+            >
+              <Plus className="h-3 w-3" />
+              <span>Add task</span>
+            </button>
+          </div>
+        ) : (
+          <>
+            {tasks.map((task) => (
+              <TaskCard
+                key={task.id}
+                task={task}
+                onDeleteTask={onDeleteTask}
+                onEditTask={onEditTask}
+              />
+            ))}
+          </>
+        )}
+      </div>
     </div>
   );
 }

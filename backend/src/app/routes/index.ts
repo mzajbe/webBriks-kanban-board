@@ -1,6 +1,8 @@
 import { Router, Request, Response } from "express";
 import { authRoutes } from "../modules/auth/auth.route";
 import { boardRoutes } from "../modules/board/board.route";
+import { boardColumnRouter, columnRouter } from "../modules/column/column.route";
+import { boardTaskRouter, taskRouter } from "../modules/task/task.route";
 
 const router = Router();
 
@@ -18,9 +20,16 @@ router.use("/auth", authRoutes);
 // Board routes
 router.use("/boards", boardRoutes);
 
-// Future module routes:
-// router.use("/users", userRoutes);
-// router.use("/columns", columnRoutes);
-// router.use("/tasks", taskRoutes);
+// Board-scoped column routes
+router.use("/boards/:boardId/columns", boardColumnRouter);
+
+// Standalone column routes
+router.use("/columns", columnRouter);
+
+// Board-scoped task routes
+router.use("/boards/:boardId/tasks", boardTaskRouter);
+
+// Standalone task routes
+router.use("/tasks", taskRouter);
 
 export default router;

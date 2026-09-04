@@ -1,14 +1,14 @@
 import React from "react";
-import { Priority } from "@/types/kanban";
+import { TaskPriority as PriorityType } from "@/types/task";
 import { cn } from "@/lib/utils";
 
 interface TaskPriorityProps {
-  priority: Priority;
+  priority: PriorityType;
   className?: string;
 }
 
 export function TaskPriority({ priority, className }: TaskPriorityProps) {
-  const configs: Record<Priority, { label: string; dot: string; text: string }> = {
+  const configs: Record<PriorityType, { label: string; dot: string; text: string }> = {
     URGENT: {
       label: "URGENT",
       dot: "bg-rose-500",

@@ -81,7 +81,7 @@ export function DashboardClient({ boardId }: DashboardClientProps) {
               </div>
             </div>
           ) : (
-            <KanbanBoard />
+            <KanbanBoard boardId={boardId || activeBoard?.id} />
           )}
         </div>
       </main>
