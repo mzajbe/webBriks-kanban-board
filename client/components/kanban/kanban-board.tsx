@@ -232,9 +232,9 @@ export function KanbanBoard({
     }
   };
 
-  const handleOpenAddTask = (colId: string) => {
+  const handleOpenAddTask = (colId?: string) => {
     setEditingTask(null);
-    setTargetColumnId(colId);
+    setTargetColumnId(colId || columns[0]?.id || "");
     handleOpenTaskDialogChange(true);
   };
 
@@ -472,6 +472,8 @@ export function KanbanBoard({
           onAssigneeChange={setSelectedAssigneeId}
           totalTaskCount={filteredTasks.length}
           members={members}
+          onAddTask={() => handleOpenAddTask()}
+          isAddDisabled={columns.length === 0}
         />
 
         {/* Filter Warning Banner */}
@@ -548,7 +550,6 @@ export function KanbanBoard({
                     tasks={columnTasks}
                     isHighlighted={overColumnId === col.id}
                     isDragDisabled={isFilterActive}
-                    onAddTask={handleOpenAddTask}
                     onDeleteTask={(t) => setDeletingTask(t)}
                     onEditTask={handleEditTask}
                     onRenameColumn={(c) => setRenamingColumn(c)}

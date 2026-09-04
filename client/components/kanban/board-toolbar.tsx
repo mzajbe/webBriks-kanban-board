@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Search, ChevronDown, X } from "lucide-react";
+import { Search, ChevronDown, X, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -23,6 +23,8 @@ interface BoardToolbarProps {
   onAssigneeChange: (assigneeId: string | "ALL") => void;
   totalTaskCount: number;
   members?: BoardMemberUser[];
+  onAddTask?: () => void;
+  isAddDisabled?: boolean;
 }
 
 export function BoardToolbar({
@@ -34,6 +36,8 @@ export function BoardToolbar({
   onAssigneeChange,
   totalTaskCount,
   members = [],
+  onAddTask,
+  isAddDisabled = false,
 }: BoardToolbarProps) {
   const selectedAssigneeName =
     selectedAssigneeId === "ALL"
@@ -130,11 +134,21 @@ export function BoardToolbar({
         )}
       </div>
 
-      {/* Right side: Task count badge */}
-      <div className="flex items-center justify-end">
+      {/* Right side: Task count badge & Add Task Button */}
+      <div className="flex items-center justify-end gap-2.5">
         <Badge variant="pill" className="bg-slate-100 text-slate-600 border border-slate-200/80 px-3 py-1 font-medium text-xs">
           {totalTaskCount} tasks
         </Badge>
+        {onAddTask && (
+          <Button
+            onClick={onAddTask}
+            disabled={isAddDisabled}
+            className="bg-[#1b4332] hover:bg-[#143627] text-white rounded-xl text-xs font-semibold gap-1.5 h-8 px-3 cursor-pointer shadow-xs transition-colors"
+          >
+            <Plus className="h-3.5 w-3.5" />
+            <span>Add task</span>
+          </Button>
+        )}
       </div>
     </div>
   );

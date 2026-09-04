@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Plus, MoreHorizontal, Edit2, Trash2 } from "lucide-react";
+import { MoreHorizontal, Edit2, Trash2 } from "lucide-react";
 import { useDroppable } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { Column } from "@/types/column";
@@ -70,7 +70,6 @@ interface KanbanColumnProps {
   columnIndex?: number;
   isHighlighted?: boolean;
   isDragDisabled?: boolean;
-  onAddTask?: (columnId: string) => void;
   onDeleteTask?: (task: Task) => void;
   onEditTask?: (task: Task) => void;
   onRenameColumn?: (column: Column) => void;
@@ -83,7 +82,6 @@ export function KanbanColumn({
   columnIndex = 0,
   isHighlighted = false,
   isDragDisabled = false,
-  onAddTask,
   onDeleteTask,
   onEditTask,
   onRenameColumn,
@@ -130,13 +128,6 @@ export function KanbanColumn({
         </div>
 
         <div className="flex items-center gap-0.5">
-          <button
-            onClick={() => onAddTask && onAddTask(column.id)}
-            className="flex h-6 w-6 items-center justify-center rounded-full text-slate-400 hover:bg-white/80 hover:text-slate-700 transition-colors cursor-pointer"
-            title="Add Task"
-          >
-            <Plus className="h-3.5 w-3.5" />
-          </button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button
@@ -147,9 +138,6 @@ export function KanbanColumn({
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-44">
-              <DropdownMenuItem onClick={() => onAddTask && onAddTask(column.id)}>
-                <Plus className="h-3.5 w-3.5 mr-2 text-slate-500" /> Add Task
-              </DropdownMenuItem>
               <DropdownMenuItem onClick={() => onRenameColumn && onRenameColumn(column)}>
                 <Edit2 className="h-3.5 w-3.5 mr-2 text-slate-500" /> Rename Column
               </DropdownMenuItem>
@@ -170,14 +158,7 @@ export function KanbanColumn({
           {tasks.length === 0 ? (
             <div className="flex h-48 flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200/90 bg-white/40 p-4 text-center">
               <p className="text-xs font-semibold text-slate-500">No tasks</p>
-              <p className="text-[11px] text-slate-400 mt-0.5">Add a task to get started.</p>
-              <button
-                onClick={() => onAddTask && onAddTask(column.id)}
-                className="mt-3 flex items-center gap-1 rounded-full bg-white px-3 py-1 text-xs font-semibold text-emerald-800 shadow-2xs border border-slate-200 hover:bg-slate-50 transition-colors cursor-pointer"
-              >
-                <Plus className="h-3 w-3" />
-                <span>Add task</span>
-              </button>
+              <p className="text-[11px] text-slate-400 mt-0.5">Drag tasks here</p>
             </div>
           ) : (
             tasks.map((task) => (
