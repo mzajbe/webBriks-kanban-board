@@ -1,4 +1,5 @@
 import { Router, Request, Response } from "express";
+import { authRoutes } from "../modules/auth/auth.route";
 
 const router = Router();
 
@@ -10,8 +11,10 @@ router.get("/health", (_req: Request, res: Response) => {
   });
 });
 
+// Authentication routes
+router.use("/auth", authRoutes);
+
 // Future module routes:
-// router.use("/auth", authRoutes);
 // router.use("/users", userRoutes);
 // router.use("/boards", boardRoutes);
 // router.use("/columns", columnRoutes);

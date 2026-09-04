@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 import {
-  Search,
   Activity,
   Users,
   FileText,
@@ -11,7 +11,9 @@ import {
   Plus,
   ChevronDown,
   Menu,
+  LogOut,
 } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -22,7 +24,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { currentUser } from "@/data/mock-board";
+import { useAuth } from "@/hooks/use-auth";
 
 interface TopbarProps {
   onOpenMobileSidebar?: () => void;
@@ -30,6 +32,32 @@ interface TopbarProps {
 }
 
 export function Topbar({ onOpenMobileSidebar, onNewTaskClick }: TopbarProps) {
+  const { user, logout } = useAuth();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      toast.success("Logged out successfully");
+      router.push("/login");
+    } catch {
+      toast.error("Logout failed");
+    }
+  };
+
+  const getInitials = (name?: string) => {
+    if (!name) return "U";
+    const parts = name.trim().split(" ");
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+    return name.slice(0, 2).toUpperCase();
+  };
+
+  const userName = user?.name || "User";
+  const userEmail = user?.email || "";
+  const initials = getInitials(user?.name);
+
   return (
     <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-slate-200/80 bg-white/90 px-4 md:px-6 backdrop-blur-md">
       {/* Left side: Mobile menu button + Title & Subtitle */}
@@ -59,8 +87,6 @@ export function Topbar({ onOpenMobileSidebar, onNewTaskClick }: TopbarProps) {
 
       {/* Right side: Search, indicators, actions, user profile */}
       <div className="flex items-center gap-2 md:gap-2.5">
-        
-
         {/* Viewing Indicator */}
         <div className="hidden lg:flex items-center gap-1.5 text-xs text-slate-400">
           <span className="text-[11px]">Viewing</span>
@@ -115,28 +141,32 @@ export function Topbar({ onOpenMobileSidebar, onNewTaskClick }: TopbarProps) {
           <DropdownMenuTrigger asChild>
             <button className="flex items-center gap-1.5 rounded-full p-1 hover:bg-slate-100 transition-colors outline-none cursor-pointer">
               <Avatar className="h-7 w-7 border-0">
-                <AvatarFallback className="bg-[#5c232f] text-rose-100 text-[11px] font-bold">
-                  {currentUser.initials}
+                <AvatarFallback className="bg-[#1b4332] text-emerald-100 text-[11px] font-bold">
+                  {initials}
                 </AvatarFallback>
               </Avatar>
-              <span className="hidden sm:inline text-xs font-semibold text-slate-700">
-                Alex
+              <span className="hidden sm:inline text-xs font-semibold text-slate-700 max-w-[100px] truncate">
+                {userName.split(" ")[0]}
               </span>
               <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-48">
             <DropdownMenuLabel>
-              <p className="font-semibold text-slate-900">{currentUser.name}</p>
-              <p className="text-[10px] text-slate-400 font-normal">{currentUser.email}</p>
+              <p className="font-semibold text-slate-900 truncate">{userName}</p>
+              <p className="text-[10px] text-slate-400 font-normal truncate">{userEmail}</p>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Profile Settings</DropdownMenuItem>
             <DropdownMenuItem>Workspace Members</DropdownMenuItem>
             <DropdownMenuItem>Keyboard Shortcuts</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-rose-600 focus:text-rose-700">
-              Log Out
+            <DropdownMenuItem
+              onClick={handleLogout}
+              className="text-rose-600 focus:text-rose-700 cursor-pointer flex items-center gap-2"
+            >
+              <LogOut className="h-3.5 w-3.5" />
+              <span>Log Out</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
