@@ -4,6 +4,7 @@ import {
   TasksListResponse,
   CreateTaskPayload,
   UpdateTaskPayload,
+  MoveTaskPayload,
 } from "@/types/task";
 
 export async function getTasks(boardId: string): Promise<TasksListResponse> {
@@ -38,6 +39,16 @@ export async function updateTask(
   });
 }
 
+export async function moveTask(
+  taskId: string,
+  data: MoveTaskPayload
+): Promise<TaskResponse> {
+  return apiClient<TaskResponse>(`/tasks/${taskId}/move`, {
+    method: "PATCH",
+    body: JSON.stringify(data),
+  });
+}
+
 export async function deleteTask(
   taskId: string
 ): Promise<{ success: boolean; message: string }> {
@@ -51,5 +62,6 @@ export const tasksApi = {
   getTask,
   createTask,
   updateTask,
+  moveTask,
   deleteTask,
 };

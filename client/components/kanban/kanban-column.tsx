@@ -2,9 +2,11 @@
 
 import React from "react";
 import { Plus, MoreHorizontal, Edit2, Trash2 } from "lucide-react";
+import { useDroppable } from "@dnd-kit/core";
+import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { Column } from "@/types/column";
 import { Task } from "@/types/task";
-import { TaskCard } from "@/components/kanban/task-card";
+import { SortableTaskCard } from "@/components/kanban/sortable-task-card";
 import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
@@ -66,6 +68,8 @@ interface KanbanColumnProps {
   column: Column;
   tasks: Task[];
   columnIndex?: number;
+  isHighlighted?: boolean;
+  isDragDisabled?: boolean;
   onAddTask?: (columnId: string) => void;
   onDeleteTask?: (task: Task) => void;
   onEditTask?: (task: Task) => void;
@@ -77,6 +81,8 @@ export function KanbanColumn({
   column,
   tasks,
   columnIndex = 0,
+  isHighlighted = false,
+  isDragDisabled = false,
   onAddTask,
   onDeleteTask,
   onEditTask,
@@ -85,12 +91,24 @@ export function KanbanColumn({
 }: KanbanColumnProps) {
   const style = getColumnStyle(column.position ?? columnIndex);
 
+  const { setNodeRef, isOver } = useDroppable({
+    id: column.id,
+    data: {
+      type: "column",
+      columnId: column.id,
+    },
+  });
+
+  const highlighted = isHighlighted || isOver;
+
   return (
     <div
+      ref={setNodeRef}
       className={cn(
         "flex w-72 md:w-80 shrink-0 flex-col rounded-3xl border p-3.5 transition-all duration-200",
         style.bgTint,
-        style.borderTint
+        style.borderTint,
+        highlighted && "ring-2 ring-emerald-500/60 bg-emerald-50/80 shadow-md"
       )}
     >
       {/* Column Header */}
@@ -121,7 +139,10 @@ export function KanbanColumn({
           </button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="flex h-6 w-6 items-center justify-center rounded-full text-slate-400 hover:bg-white/80 hover:text-slate-700 transition-colors cursor-pointer">
+              <button
+                onPointerDown={(e) => e.stopPropagation()}
+                className="flex h-6 w-6 items-center justify-center rounded-full text-slate-400 hover:bg-white/80 hover:text-slate-700 transition-colors cursor-pointer"
+              >
                 <MoreHorizontal className="h-3.5 w-3.5" />
               </button>
             </DropdownMenuTrigger>
@@ -144,32 +165,33 @@ export function KanbanColumn({
       </div>
 
       {/* Cards List Container */}
-      <div className="flex-1 space-y-3 min-h-[320px]">
-        {tasks.length === 0 ? (
-          <div className="flex h-48 flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200/90 bg-white/40 p-4 text-center">
-            <p className="text-xs font-semibold text-slate-500">No tasks</p>
-            <p className="text-[11px] text-slate-400 mt-0.5">Add a task to get started.</p>
-            <button
-              onClick={() => onAddTask && onAddTask(column.id)}
-              className="mt-3 flex items-center gap-1 rounded-full bg-white px-3 py-1 text-xs font-semibold text-emerald-800 shadow-2xs border border-slate-200 hover:bg-slate-50 transition-colors cursor-pointer"
-            >
-              <Plus className="h-3 w-3" />
-              <span>Add task</span>
-            </button>
-          </div>
-        ) : (
-          <>
-            {tasks.map((task) => (
-              <TaskCard
+      <SortableContext items={tasks.map((t) => t.id)} strategy={verticalListSortingStrategy}>
+        <div className="flex-1 space-y-3 min-h-[320px]">
+          {tasks.length === 0 ? (
+            <div className="flex h-48 flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200/90 bg-white/40 p-4 text-center">
+              <p className="text-xs font-semibold text-slate-500">No tasks</p>
+              <p className="text-[11px] text-slate-400 mt-0.5">Add a task to get started.</p>
+              <button
+                onClick={() => onAddTask && onAddTask(column.id)}
+                className="mt-3 flex items-center gap-1 rounded-full bg-white px-3 py-1 text-xs font-semibold text-emerald-800 shadow-2xs border border-slate-200 hover:bg-slate-50 transition-colors cursor-pointer"
+              >
+                <Plus className="h-3 w-3" />
+                <span>Add task</span>
+              </button>
+            </div>
+          ) : (
+            tasks.map((task) => (
+              <SortableTaskCard
                 key={task.id}
                 task={task}
+                disabled={isDragDisabled}
                 onDeleteTask={onDeleteTask}
                 onEditTask={onEditTask}
               />
-            ))}
-          </>
-        )}
-      </div>
+            ))
+          )}
+        </div>
+      </SortableContext>
     </div>
   );
 }

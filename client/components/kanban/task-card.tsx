@@ -58,6 +58,7 @@ export function TaskCard({
             <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
               <button
                 type="button"
+                onPointerDown={(e) => e.stopPropagation()}
                 className="opacity-0 group-hover:opacity-100 flex h-6 w-6 items-center justify-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-opacity cursor-pointer"
               >
                 <MoreHorizontal className="h-3.5 w-3.5" />

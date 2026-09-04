@@ -45,6 +45,11 @@ export interface UpdateTaskPayload {
   dueDate?: string | null;
 }
 
+export interface MoveTaskPayload {
+  targetColumnId: string;
+  targetPosition: number;
+}
+
 export interface TaskResponse {
   success: boolean;
   message: string;

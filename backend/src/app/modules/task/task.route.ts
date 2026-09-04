@@ -15,6 +15,7 @@ taskRouter.use(authMiddleware);
 
 taskRouter.get("/:taskId", taskController.getTaskById);
 taskRouter.patch("/:taskId", taskController.updateTask);
+taskRouter.patch("/:taskId/move", taskController.moveTask);
 taskRouter.delete("/:taskId", taskController.deleteTask);
 
 export { boardTaskRouter, taskRouter };

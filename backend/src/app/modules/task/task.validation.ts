@@ -42,5 +42,11 @@ export const updateTaskSchema = z.object({
     .nullable(),
 });
 
+export const moveTaskSchema = z.object({
+  targetColumnId: z.string().uuid("Invalid target column ID format"),
+  targetPosition: z.number().int("Position must be an integer").min(0, "Position must be >= 0"),
+});
+
 export type CreateTaskInput = z.infer<typeof createTaskSchema>;
 export type UpdateTaskInput = z.infer<typeof updateTaskSchema>;
+export type MoveTaskInput = z.infer<typeof moveTaskSchema>;
