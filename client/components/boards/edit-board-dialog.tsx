@@ -68,25 +68,25 @@ export function EditBoardDialog({ board, open, onOpenChange }: EditBoardDialogPr
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md bg-white rounded-2xl p-6">
+      <DialogContent className="sm:max-w-md rounded-2xl p-6">
         <DialogHeader>
-          <DialogTitle className="text-lg font-bold text-slate-900">
+          <DialogTitle className="text-lg font-bold text-slate-900 dark:text-slate-100">
             Edit Board Details
           </DialogTitle>
-          <DialogDescription className="text-xs text-slate-500">
+          <DialogDescription className="text-xs text-slate-500 dark:text-slate-400">
             Update the title and description for this board.
           </DialogDescription>
         </DialogHeader>
 
         {error && (
-          <div className="text-xs text-rose-600 bg-rose-50 border border-rose-200 rounded-lg p-2.5 font-medium">
+          <div className="text-xs text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-900 rounded-lg p-2.5 font-medium">
             {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4 py-2">
           <div className="space-y-1.5">
-            <Label htmlFor="edit-board-name" className="text-xs font-semibold text-slate-700">
+            <Label htmlFor="edit-board-name" className="text-xs font-semibold text-slate-700 dark:text-slate-300">
               Board Name <span className="text-rose-500">*</span>
             </Label>
             <Input
@@ -100,7 +100,7 @@ export function EditBoardDialog({ board, open, onOpenChange }: EditBoardDialogPr
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="edit-board-desc" className="text-xs font-semibold text-slate-700">
+            <Label htmlFor="edit-board-desc" className="text-xs font-semibold text-slate-700 dark:text-slate-300">
               Description
             </Label>
             <Input
@@ -127,7 +127,7 @@ export function EditBoardDialog({ board, open, onOpenChange }: EditBoardDialogPr
               type="submit"
               size="sm"
               disabled={isLoading}
-              className="bg-[#1b4332] hover:bg-[#143627] text-white rounded-xl text-xs font-semibold"
+              className="bg-[#1b4332] hover:bg-[#143627] dark:bg-emerald-800 dark:hover:bg-emerald-900 text-white rounded-xl text-xs font-semibold"
             >
               {isLoading ? "Saving..." : "Save Changes"}
             </Button>

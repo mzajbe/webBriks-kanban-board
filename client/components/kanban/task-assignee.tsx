@@ -21,7 +21,7 @@ function getInitials(name?: string) {
 export function TaskAssignee({ assignee, className }: TaskAssigneeProps) {
   if (!assignee) {
     return (
-      <span className={cn("text-[11px] font-normal text-slate-400 select-none", className)}>
+      <span className={cn("text-[11px] font-normal text-slate-400 dark:text-slate-500 select-none", className)}>
         Unassigned
       </span>
     );
@@ -44,7 +44,7 @@ export function TaskAssignee({ assignee, className }: TaskAssigneeProps) {
                 {initials}
               </AvatarFallback>
             </Avatar>
-            <span className="text-[11px] font-medium text-slate-600 group-hover:text-slate-900 transition-colors truncate max-w-[120px]">
+            <span className="text-[11px] font-medium text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-slate-100 transition-colors truncate max-w-[120px]">
               {assignee.name}
             </span>
           </div>

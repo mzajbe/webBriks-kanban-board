@@ -90,11 +90,11 @@ export function Sidebar({ className, onNavigateBoard }: SidebarProps) {
   // Helper for icon background colors
   const getIconColor = (index: number) => {
     const colors = [
-      { bg: "bg-blue-100", text: "text-blue-900" },
-      { bg: "bg-rose-100", text: "text-rose-900" },
-      { bg: "bg-emerald-100", text: "text-emerald-900" },
-      { bg: "bg-amber-100", text: "text-amber-900" },
-      { bg: "bg-purple-100", text: "text-purple-900" },
+      { bg: "bg-blue-100 dark:bg-blue-950/70", text: "text-blue-900 dark:text-blue-200" },
+      { bg: "bg-rose-100 dark:bg-rose-950/70", text: "text-rose-900 dark:text-rose-200" },
+      { bg: "bg-emerald-100 dark:bg-emerald-950/70", text: "text-emerald-900 dark:text-emerald-200" },
+      { bg: "bg-amber-100 dark:bg-amber-950/70", text: "text-amber-900 dark:text-amber-200" },
+      { bg: "bg-purple-100 dark:bg-purple-950/70", text: "text-purple-900 dark:text-purple-200" },
     ];
     return colors[index % colors.length];
   };

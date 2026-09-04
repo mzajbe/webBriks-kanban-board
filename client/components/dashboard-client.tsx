@@ -17,10 +17,13 @@ interface DashboardClientProps {
 
 export function DashboardClient({ boardId }: DashboardClientProps) {
   const router = useRouter();
-  const { boards, activeBoard, isLoadingBoards, isLoadingActiveBoard, selectBoard } = useBoards();
+  const { boards, activeBoard, isLoadingBoards, selectBoard } = useBoards();
 
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
+
+  const boardToShow = boardId || activeBoard?.id;
+  const isBootstrapping = isLoadingBoards && boards.length === 0 && !boardToShow;
 
   useEffect(() => {
     if (boardId) {
@@ -33,7 +36,7 @@ export function DashboardClient({ boardId }: DashboardClientProps) {
   }, [boardId, boards, activeBoard, selectBoard, router]);
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-[#F8FAFC]">
+    <div className="flex h-screen w-screen overflow-hidden bg-background">
       {/* Desktop Left Sidebar */}
       <div className="hidden lg:flex h-full shrink-0">
         <Sidebar />
@@ -51,29 +54,29 @@ export function DashboardClient({ boardId }: DashboardClientProps) {
         <Topbar onOpenMobileSidebar={() => setMobileSidebarOpen(true)} />
 
         {/* Content Body */}
-        <div className="flex-1 overflow-hidden">
-          {isLoadingBoards || isLoadingActiveBoard ? (
-            <div className="flex h-full w-full items-center justify-center bg-[#F8FAFC]">
-              <div className="flex flex-col items-center gap-3 text-slate-400">
-                <Loader2 className="h-8 w-8 animate-spin text-emerald-800" />
-                <p className="text-xs font-semibold text-slate-500">Loading board...</p>
+        <div className="flex-1 overflow-hidden bg-background">
+          {isBootstrapping ? (
+            <div className="flex h-full w-full items-center justify-center bg-background">
+              <div className="flex flex-col items-center gap-3 text-slate-400 dark:text-slate-500">
+                <Loader2 className="h-8 w-8 animate-spin text-emerald-800 dark:text-emerald-500" />
+                <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">Loading board...</p>
               </div>
             </div>
-          ) : boards.length === 0 ? (
-            <div className="flex h-full w-full items-center justify-center p-6 bg-[#F8FAFC]">
-              <div className="flex flex-col items-center text-center max-w-sm p-8 rounded-3xl bg-white border border-slate-200/80 shadow-xs space-y-4">
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-800">
+          ) : !boardToShow && boards.length === 0 ? (
+            <div className="flex h-full w-full items-center justify-center p-6 bg-background">
+              <div className="flex flex-col items-center text-center max-w-sm p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-4">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
                   <LayoutDashboard className="h-7 w-7" />
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-base font-bold text-slate-900">No Boards Yet</h3>
-                  <p className="text-xs text-slate-500">
+                  <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">No Boards Yet</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
                     Create your first board or ask a team member to share a board with you.
                   </p>
                 </div>
                 <Button
                   onClick={() => setCreateDialogOpen(true)}
-                  className="bg-[#1b4332] hover:bg-[#143627] text-white rounded-xl text-xs font-semibold gap-1.5 cursor-pointer"
+                  className="bg-[#1b4332] hover:bg-[#143627] dark:bg-emerald-800 dark:hover:bg-emerald-900 text-white rounded-xl text-xs font-semibold gap-1.5 cursor-pointer"
                 >
                   <Plus className="h-4 w-4" />
                   <span>Create First Board</span>
@@ -81,7 +84,7 @@ export function DashboardClient({ boardId }: DashboardClientProps) {
               </div>
             </div>
           ) : (
-            <KanbanBoard boardId={boardId || activeBoard?.id} />
+            <KanbanBoard boardId={boardToShow} />
           )}
         </div>
       </main>

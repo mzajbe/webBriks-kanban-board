@@ -143,7 +143,7 @@ export function BoardToolbar({
           <Button
             onClick={onAddTask}
             disabled={isAddDisabled}
-            className="bg-[#1b4332] hover:bg-[#143627] text-white rounded-xl text-xs font-semibold gap-1.5 h-8 px-3 cursor-pointer shadow-xs transition-colors"
+            className="bg-[#1b4332] hover:bg-[#143627] dark:bg-emerald-800 dark:hover:bg-emerald-900 text-white rounded-xl text-xs font-semibold gap-1.5 h-8 px-3 cursor-pointer shadow-xs transition-colors"
           >
             <Plus className="h-3.5 w-3.5" />
             <span>Add task</span>

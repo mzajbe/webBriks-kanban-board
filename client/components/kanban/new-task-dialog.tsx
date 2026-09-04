@@ -139,7 +139,7 @@ export function NewTaskDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[480px]">
         <DialogHeader>
-          <DialogTitle className="text-base font-bold text-slate-900">
+          <DialogTitle className="text-base font-bold text-slate-900 dark:text-slate-100">
             {taskToEdit ? "Edit Task" : "Create New Task"}
           </DialogTitle>
         </DialogHeader>
@@ -147,7 +147,7 @@ export function NewTaskDialog({
         <form onSubmit={handleSubmit} className="space-y-4 py-2">
           {/* Title */}
           <div className="space-y-1">
-            <label className="text-xs font-semibold text-slate-700">
+            <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
               Task Title <span className="text-rose-500">*</span>
             </label>
             <Input
@@ -164,26 +164,26 @@ export function NewTaskDialog({
 
           {/* Description */}
           <div className="space-y-1">
-            <label className="text-xs font-semibold text-slate-700">Description</label>
+            <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">Description</label>
             <textarea
               rows={3}
               placeholder="Add task description or acceptance criteria..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               disabled={isSubmitting}
-              className="flex w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700 placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-600"
+              className="flex w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-2 text-xs text-slate-700 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-600"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             {/* Priority */}
             <div className="space-y-1">
-              <label className="text-xs font-semibold text-slate-700">Priority</label>
+              <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">Priority</label>
               <select
                 value={priority}
                 onChange={(e) => setPriority(e.target.value as TaskPriority)}
                 disabled={isSubmitting}
-                className="flex h-9 w-full rounded-lg border border-slate-200 bg-white px-3 py-1 text-xs text-slate-700 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-600 cursor-pointer"
+                className="flex h-9 w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-1 text-xs text-slate-700 dark:text-slate-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-600 cursor-pointer"
               >
                 <option value="URGENT">URGENT</option>
                 <option value="HIGH">HIGH</option>
@@ -195,12 +195,12 @@ export function NewTaskDialog({
             {/* Column Selection (Only in Create Mode) */}
             {!taskToEdit ? (
               <div className="space-y-1">
-                <label className="text-xs font-semibold text-slate-700">Column</label>
+                <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">Column</label>
                 <select
                   value={columnId}
                   onChange={(e) => setColumnId(e.target.value)}
                   disabled={isSubmitting}
-                  className="flex h-9 w-full rounded-lg border border-slate-200 bg-white px-3 py-1 text-xs text-slate-700 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-600 cursor-pointer"
+                  className="flex h-9 w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-1 text-xs text-slate-700 dark:text-slate-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-600 cursor-pointer"
                 >
                   {columns.map((col) => (
                     <option key={col.id} value={col.id}>
@@ -211,7 +211,7 @@ export function NewTaskDialog({
               </div>
             ) : (
               <div className="space-y-1">
-                <label className="text-xs font-semibold text-slate-700">Due Date</label>
+                <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">Due Date</label>
                 <Input
                   type="date"
                   value={dueDate}
@@ -226,12 +226,12 @@ export function NewTaskDialog({
           <div className="grid grid-cols-2 gap-3">
             {/* Assignee */}
             <div className="space-y-1">
-              <label className="text-xs font-semibold text-slate-700">Assignee</label>
+              <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">Assignee</label>
               <select
                 value={assigneeId}
                 onChange={(e) => setAssigneeId(e.target.value)}
                 disabled={isSubmitting}
-                className="flex h-9 w-full rounded-lg border border-slate-200 bg-white px-3 py-1 text-xs text-slate-700 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-600 cursor-pointer"
+                className="flex h-9 w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-1 text-xs text-slate-700 dark:text-slate-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-600 cursor-pointer"
               >
                 <option value="unassigned">Unassigned</option>
                 {members.map((member) => (
@@ -245,7 +245,7 @@ export function NewTaskDialog({
             {/* Due Date (Create mode) */}
             {!taskToEdit && (
               <div className="space-y-1">
-                <label className="text-xs font-semibold text-slate-700">Due Date</label>
+                <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">Due Date</label>
                 <Input
                   type="date"
                   value={dueDate}
@@ -270,7 +270,7 @@ export function NewTaskDialog({
             <Button
               type="submit"
               size="sm"
-              className="bg-[#1b4332] hover:bg-[#143627] text-white"
+              className="bg-[#1b4332] hover:bg-[#143627] dark:bg-emerald-800 dark:hover:bg-emerald-900 text-white"
               disabled={isSubmitting || !title.trim()}
             >
               {isSubmitting ? (

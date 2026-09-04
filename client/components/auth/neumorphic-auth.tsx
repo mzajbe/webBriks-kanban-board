@@ -135,10 +135,10 @@ export function NeumorphicAuth({ initialMode = "login" }: NeumorphicAuthProps) {
                 <Zap className="h-5 w-5 fill-white text-white" />
               </div>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-800 dark:text-slate-100 tracking-tight">
               webBriks
             </h1>
-            <p className="text-xs text-slate-500 font-medium mt-1.5 max-w-xs transition-all duration-300">
+            <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-1.5 max-w-xs transition-all duration-300">
               {isRegister
                 ? "Start managing your agile projects & sprints in seconds."
                 : "Welcome back! Access your Kanban board & project backlog."}
@@ -152,8 +152,8 @@ export function NeumorphicAuth({ initialMode = "login" }: NeumorphicAuthProps) {
               onClick={() => handleModeSwitch("login")}
               className={`flex-1 py-2 text-xs font-semibold transition-all duration-300 rounded-xl cursor-pointer ${
                 !isRegister
-                  ? "text-emerald-900 neu-btn bg-[#eef2f6] shadow-xs"
-                  : "text-slate-500 hover:text-slate-800"
+                  ? "text-emerald-900 dark:text-emerald-300 neu-btn bg-[#eef2f6] dark:bg-slate-800 shadow-xs"
+                  : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
               }`}
             >
               Sign In
@@ -163,8 +163,8 @@ export function NeumorphicAuth({ initialMode = "login" }: NeumorphicAuthProps) {
               onClick={() => handleModeSwitch("register")}
               className={`flex-1 py-2 text-xs font-semibold transition-all duration-300 rounded-xl cursor-pointer ${
                 isRegister
-                  ? "text-emerald-900 neu-btn bg-[#eef2f6] shadow-xs"
-                  : "text-slate-500 hover:text-slate-800"
+                  ? "text-emerald-900 dark:text-emerald-300 neu-btn bg-[#eef2f6] dark:bg-slate-800 shadow-xs"
+                  : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
               }`}
             >
               Sign Up
@@ -173,7 +173,7 @@ export function NeumorphicAuth({ initialMode = "login" }: NeumorphicAuthProps) {
 
           {/* Error Feedback Banner */}
           {errorMessage && (
-            <div className="mb-5 flex items-start gap-2.5 rounded-2xl bg-rose-50 border border-rose-200 p-3.5 text-xs text-rose-700 font-medium animate-in fade-in slide-in-from-top-1 duration-200">
+            <div className="mb-5 flex items-start gap-2.5 rounded-2xl bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-900 p-3.5 text-xs text-rose-700 dark:text-rose-300 font-medium animate-in fade-in slide-in-from-top-1 duration-200">
               <AlertCircle className="h-4 w-4 text-rose-500 shrink-0 mt-0.5" />
               <span>{errorMessage}</span>
             </div>
@@ -184,7 +184,7 @@ export function NeumorphicAuth({ initialMode = "login" }: NeumorphicAuthProps) {
             {/* Full Name Field (Register Mode) */}
             {isRegister && (
               <div className="space-y-1.5">
-                <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wider px-1">
+                <label className="text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider px-1">
                   Full Name
                 </label>
                 <div className="relative flex items-center">
@@ -195,7 +195,7 @@ export function NeumorphicAuth({ initialMode = "login" }: NeumorphicAuthProps) {
                     placeholder="Alex Rivera"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full neu-input rounded-2xl py-3.5 pl-11 pr-4 text-xs font-medium text-slate-800 placeholder:text-slate-400 outline-none"
+                    className="w-full neu-input rounded-2xl py-3.5 pl-11 pr-4 text-xs font-medium text-slate-800 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 outline-none"
                   />
                 </div>
               </div>
@@ -203,7 +203,7 @@ export function NeumorphicAuth({ initialMode = "login" }: NeumorphicAuthProps) {
 
             {/* Email Address */}
             <div className="space-y-1.5">
-              <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wider px-1">
+              <label className="text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider px-1">
                 {isRegister ? "Work Email" : "Email Address"}
               </label>
               <div className="relative flex items-center">
@@ -214,7 +214,7 @@ export function NeumorphicAuth({ initialMode = "login" }: NeumorphicAuthProps) {
                   placeholder="alex@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full neu-input rounded-2xl py-3.5 pl-11 pr-4 text-xs font-medium text-slate-800 placeholder:text-slate-400 outline-none"
+                  className="w-full neu-input rounded-2xl py-3.5 pl-11 pr-4 text-xs font-medium text-slate-800 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 outline-none"
                 />
               </div>
             </div>
@@ -222,7 +222,7 @@ export function NeumorphicAuth({ initialMode = "login" }: NeumorphicAuthProps) {
             {/* Password */}
             <div className="space-y-1.5">
               <div className="flex items-center justify-between px-1">
-                <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wider">
+                <label className="text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">
                   Password
                 </label>
               </div>
@@ -234,12 +234,12 @@ export function NeumorphicAuth({ initialMode = "login" }: NeumorphicAuthProps) {
                   placeholder="••••••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full neu-input rounded-2xl py-3.5 pl-11 pr-11 text-xs font-medium text-slate-800 placeholder:text-slate-400 outline-none"
+                  className="w-full neu-input rounded-2xl py-3.5 pl-11 pr-11 text-xs font-medium text-slate-800 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 outline-none"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 hover:text-slate-600"
+                  className="absolute right-3.5 flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
                 >
                   {showPassword ? (
                     <EyeOff className="h-4 w-4" />
@@ -272,7 +272,7 @@ export function NeumorphicAuth({ initialMode = "login" }: NeumorphicAuthProps) {
                       style={{ width: "33%" }}
                     />
                   </div>
-                  <span className="text-[10px] font-bold text-slate-500">
+                  <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400">
                     {strength.label}
                   </span>
                 </div>
@@ -282,7 +282,7 @@ export function NeumorphicAuth({ initialMode = "login" }: NeumorphicAuthProps) {
             {/* Confirm Password (Register Mode) */}
             {isRegister && (
               <div className="space-y-1.5">
-                <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wider px-1">
+                <label className="text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider px-1">
                   Confirm Password
                 </label>
                 <div className="relative flex items-center">
@@ -293,12 +293,12 @@ export function NeumorphicAuth({ initialMode = "login" }: NeumorphicAuthProps) {
                     placeholder="••••••••••••"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="w-full neu-input rounded-2xl py-3.5 pl-11 pr-11 text-xs font-medium text-slate-800 placeholder:text-slate-400 outline-none"
+                    className="w-full neu-input rounded-2xl py-3.5 pl-11 pr-11 text-xs font-medium text-slate-800 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 outline-none"
                   />
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-3.5 flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 hover:text-slate-600"
+                    className="absolute right-3.5 flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
                   >
                     {showConfirmPassword ? (
                       <EyeOff className="h-4 w-4" />
@@ -324,7 +324,7 @@ export function NeumorphicAuth({ initialMode = "login" }: NeumorphicAuthProps) {
                 </button>
                 <span
                   onClick={() => setRememberMe(!rememberMe)}
-                  className="text-xs font-medium text-slate-600 cursor-pointer select-none"
+                  className="text-xs font-medium text-slate-600 dark:text-slate-300 cursor-pointer select-none"
                 >
                   Keep me signed in for 30 days
                 </span>
@@ -342,14 +342,14 @@ export function NeumorphicAuth({ initialMode = "login" }: NeumorphicAuthProps) {
                 </button>
                 <span
                   onClick={() => setAgreeTerms(!agreeTerms)}
-                  className="text-xs font-normal text-slate-600 cursor-pointer select-none leading-tight"
+                  className="text-xs font-normal text-slate-600 dark:text-slate-300 cursor-pointer select-none leading-tight"
                 >
                   I agree to the{" "}
-                  <a href="#" className="font-semibold text-emerald-800 hover:underline">
+                  <a href="#" className="font-semibold text-emerald-800 dark:text-emerald-400 hover:underline">
                     Terms of Service
                   </a>{" "}
                   and{" "}
-                  <a href="#" className="font-semibold text-emerald-800 hover:underline">
+                  <a href="#" className="font-semibold text-emerald-800 dark:text-emerald-400 hover:underline">
                     Privacy Policy
                   </a>.
                 </span>
@@ -376,14 +376,14 @@ export function NeumorphicAuth({ initialMode = "login" }: NeumorphicAuthProps) {
           </form>
 
           {/* Bottom Link Switcher */}
-          <div className="mt-7 text-center text-xs font-medium text-slate-500">
+          <div className="mt-7 text-center text-xs font-medium text-slate-500 dark:text-slate-400">
             {isRegister ? (
               <>
                 Already have an account?{" "}
                 <button
                   type="button"
                   onClick={() => handleModeSwitch("login")}
-                  className="font-bold text-emerald-800 hover:underline cursor-pointer"
+                  className="font-bold text-emerald-800 dark:text-emerald-400 hover:underline cursor-pointer"
                 >
                   Sign In
                 </button>
@@ -394,7 +394,7 @@ export function NeumorphicAuth({ initialMode = "login" }: NeumorphicAuthProps) {
                 <button
                   type="button"
                   onClick={() => handleModeSwitch("register")}
-                  className="font-bold text-emerald-800 hover:underline cursor-pointer"
+                  className="font-bold text-emerald-800 dark:text-emerald-400 hover:underline cursor-pointer"
                 >
                   Create free account
                 </button>
@@ -404,7 +404,7 @@ export function NeumorphicAuth({ initialMode = "login" }: NeumorphicAuthProps) {
         </div>
 
         {/* Footer copyright */}
-        <p className="mt-6 text-center text-[11px] text-slate-400">
+        <p className="mt-6 text-center text-[11px] text-slate-400 dark:text-slate-500">
           &copy; {new Date().getFullYear()} webBriks SaaS. Soft Neumorphism UI.
         </p>
       </div>

@@ -48,12 +48,12 @@ export function DeleteBoardDialog({ board, open, onOpenChange }: DeleteBoardDial
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent className="sm:max-w-md bg-white rounded-2xl p-6">
+      <AlertDialogContent className="sm:max-w-md rounded-2xl p-6">
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-lg font-bold text-slate-900">
+          <AlertDialogTitle className="text-lg font-bold text-slate-900 dark:text-slate-100">
             Delete Board &quot;{board?.name}&quot;?
           </AlertDialogTitle>
-          <AlertDialogDescription className="text-xs text-slate-500">
+          <AlertDialogDescription className="text-xs text-slate-500 dark:text-slate-400">
             This action cannot be undone. All columns, tasks, and member associations for this board will be permanently removed.
           </AlertDialogDescription>
         </AlertDialogHeader>

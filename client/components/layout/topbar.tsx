@@ -150,7 +150,7 @@ export function Topbar({ onOpenMobileSidebar }: TopbarProps) {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                   onClick={() => setDeleteDialogOpen(true)}
-                  className="cursor-pointer text-xs font-medium text-rose-600 focus:text-rose-700 gap-2"
+                  className="cursor-pointer text-xs font-medium text-rose-600 focus:text-rose-700 dark:text-rose-400 dark:focus:text-rose-300 gap-2"
                 >
                   <Trash2 className="h-3.5 w-3.5" />
                   <span>Delete Board</span>

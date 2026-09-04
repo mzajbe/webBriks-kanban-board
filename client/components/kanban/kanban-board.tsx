@@ -461,7 +461,7 @@ export function KanbanBoard({
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
     >
-      <div className="flex flex-1 flex-col h-full overflow-hidden bg-[#F8FAFC] dark:bg-[#0B1120] transition-colors">
+      <div className="flex flex-1 flex-col h-full overflow-hidden bg-background">
         {/* Board Toolbar */}
         <BoardToolbar
           searchQuery={searchQuery}
@@ -486,14 +486,14 @@ export function KanbanBoard({
 
         {/* Main Board Columns Area */}
         {isLoading ? (
-          <div className="flex flex-1 items-center justify-center bg-[#F8FAFC] dark:bg-[#0B1120]">
+          <div className="flex flex-1 items-center justify-center bg-background">
             <div className="flex flex-col items-center gap-3 text-slate-400 dark:text-slate-500">
               <Loader2 className="h-8 w-8 animate-spin text-emerald-800 dark:text-emerald-500" />
               <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">Loading board...</p>
             </div>
           </div>
         ) : boardError ? (
-          <div className="flex flex-1 items-center justify-center p-6 bg-[#F8FAFC] dark:bg-[#0B1120]">
+          <div className="flex flex-1 items-center justify-center p-6 bg-background">
             <div className="flex flex-col items-center text-center max-w-sm p-8 rounded-3xl bg-white dark:bg-slate-900 border border-rose-200/80 dark:border-rose-900/50 shadow-xs space-y-4">
               <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400">
                 <AlertCircle className="h-7 w-7" />
@@ -513,7 +513,7 @@ export function KanbanBoard({
             </div>
           </div>
         ) : columns.length === 0 ? (
-          <div className="flex flex-1 items-center justify-center p-6 bg-[#F8FAFC] dark:bg-[#0B1120]">
+          <div className="flex flex-1 items-center justify-center p-6 bg-background">
             <div className="flex flex-col items-center text-center max-w-sm p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-4">
               <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-400">
                 <Columns3 className="h-7 w-7" />

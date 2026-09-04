@@ -69,14 +69,14 @@ export function CreateColumnDialog({
     >
       <DialogContent className="sm:max-w-[400px]">
         <DialogHeader>
-          <DialogTitle className="text-base font-bold text-slate-900">
+          <DialogTitle className="text-base font-bold text-slate-900 dark:text-slate-100">
             Add New Column
           </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4 py-2">
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-slate-700">
+            <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
               Column Name
             </label>
             <Input
@@ -104,7 +104,7 @@ export function CreateColumnDialog({
             <Button
               type="submit"
               size="sm"
-              className="bg-[#1b4332] hover:bg-[#143627] text-white"
+              className="bg-[#1b4332] hover:bg-[#143627] dark:bg-emerald-800 dark:hover:bg-emerald-900 text-white"
               disabled={isSubmitting || !name.trim()}
             >
               {isSubmitting ? (
