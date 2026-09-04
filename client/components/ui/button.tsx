@@ -13,14 +13,14 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
-          "border border-slate-200 bg-white shadow-xs hover:bg-slate-100/80 hover:text-slate-900 text-slate-700",
+          "border border-slate-200 bg-white shadow-xs hover:bg-slate-100/80 hover:text-slate-900 text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-slate-100",
         secondary:
-          "bg-slate-100 text-slate-900 shadow-xs hover:bg-slate-200/80",
-        ghost: "hover:bg-slate-100 hover:text-slate-900 text-slate-600",
+          "bg-slate-100 text-slate-900 shadow-xs hover:bg-slate-200/80 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700",
+        ghost: "hover:bg-slate-100 hover:text-slate-900 text-slate-600 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100",
         link: "text-primary underline-offset-4 hover:underline",
-        emerald: "bg-emerald-900 text-white shadow hover:bg-emerald-950",
-        pill: "border border-slate-200 bg-white rounded-full text-slate-700 hover:bg-slate-50 hover:border-slate-300 shadow-2xs font-normal",
-        darkPill: "bg-emerald-900 text-white rounded-full hover:bg-emerald-950 shadow-sm font-medium",
+        emerald: "bg-emerald-900 text-white shadow hover:bg-emerald-950 dark:bg-emerald-700 dark:hover:bg-emerald-800",
+        pill: "border border-slate-200 bg-white rounded-full text-slate-700 hover:bg-slate-50 hover:border-slate-300 shadow-2xs font-normal dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:border-slate-700",
+        darkPill: "bg-emerald-900 text-white rounded-full hover:bg-emerald-950 shadow-sm font-medium dark:bg-emerald-700 dark:hover:bg-emerald-800",
       },
       size: {
         default: "h-9 px-4 py-2",

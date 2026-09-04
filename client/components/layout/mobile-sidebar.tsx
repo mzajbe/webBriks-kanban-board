@@ -13,7 +13,7 @@ interface MobileSidebarProps {
 export function MobileSidebar({ open, onOpenChange, onNavigateBoard }: MobileSidebarProps) {
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="left" className="w-[240px] p-0 border-r border-slate-200">
+      <SheetContent side="left" className="w-[240px] p-0 border-r border-slate-200 dark:border-slate-800 dark:bg-[#0F172A]">
         <SheetHeader className="sr-only">
           <SheetTitle>Navigation Sidebar</SheetTitle>
         </SheetHeader>

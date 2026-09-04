@@ -77,34 +77,34 @@ export function Topbar({ onOpenMobileSidebar }: TopbarProps) {
 
   return (
     <>
-      <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-slate-200/80 bg-white/90 px-4 md:px-6 backdrop-blur-md">
+      <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-slate-200/80 bg-white/90 dark:border-slate-800/80 dark:bg-[#0F172A]/90 px-4 md:px-6 backdrop-blur-md transition-colors">
         {/* Left side: Mobile menu button + Board Title & Subtitle */}
         <div className="flex items-center gap-3 min-w-0">
           <Button
             variant="ghost"
             size="icon"
-            className="lg:hidden h-8 w-8 rounded-lg"
+            className="lg:hidden h-8 w-8 rounded-lg dark:hover:bg-slate-800"
             onClick={onOpenMobileSidebar}
           >
-            <Menu className="h-4 w-4 text-slate-600" />
+            <Menu className="h-4 w-4 text-slate-600 dark:text-slate-300" />
             <span className="sr-only">Toggle Sidebar</span>
           </Button>
 
           <div className="flex flex-col min-w-0">
             <div className="flex items-center gap-2">
               <span className="h-2 w-2 rounded-full bg-emerald-500 shrink-0" />
-              <h1 className="text-base md:text-lg font-bold tracking-tight text-slate-900 truncate">
+              <h1 className="text-base md:text-lg font-bold tracking-tight text-slate-900 dark:text-slate-100 truncate">
                 {activeBoard ? activeBoard.name : "Select a Board"}
               </h1>
 
               {/* Owner vs Member Badge */}
               {activeBoard && (
-                <span className="hidden sm:inline-flex items-center text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">
+                <span className="hidden sm:inline-flex items-center text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400">
                   {isOwner ? "Owner" : "Shared Member"}
                 </span>
               )}
             </div>
-            <p className="hidden sm:block text-xs text-slate-400 truncate max-w-md">
+            <p className="hidden sm:block text-xs text-slate-400 dark:text-slate-500 truncate max-w-md">
               {activeBoard?.description || (activeBoard ? "Kanban Board" : "Choose a board from the sidebar to start")}
             </p>
           </div>
@@ -118,11 +118,11 @@ export function Topbar({ onOpenMobileSidebar }: TopbarProps) {
               variant="outline"
               size="sm"
               onClick={() => setShareDialogOpen(true)}
-              className="h-8 rounded-xl text-xs font-semibold gap-1.5 border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer"
+              className="h-8 rounded-xl text-xs font-semibold gap-1.5 border-slate-200 text-slate-700 hover:bg-slate-50 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800 cursor-pointer"
             >
-              <Users className="h-3.5 w-3.5 text-slate-500" />
+              <Users className="h-3.5 w-3.5 text-slate-500 dark:text-slate-400" />
               <span className="hidden sm:inline">Members</span>
-              <span className="text-[10px] bg-slate-100 text-slate-600 px-1.5 py-0.2 rounded-full font-bold">
+              <span className="text-[10px] bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 px-1.5 py-0.2 rounded-full font-bold">
                 {activeBoard.memberCount ? activeBoard.memberCount + 1 : 1}
               </span>
             </Button>
@@ -132,19 +132,19 @@ export function Topbar({ onOpenMobileSidebar }: TopbarProps) {
           {activeBoard && isOwner && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 text-slate-500 hover:bg-slate-100 hover:text-slate-700 transition-colors outline-none cursor-pointer">
+                <button className="flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 text-slate-500 hover:bg-slate-100 hover:text-slate-700 dark:border-slate-800 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200 transition-colors outline-none cursor-pointer">
                   <MoreVertical className="h-4 w-4" />
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-44">
-                <DropdownMenuLabel className="text-[10px] uppercase font-bold text-slate-400">
+                <DropdownMenuLabel className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500">
                   Board Settings
                 </DropdownMenuLabel>
                 <DropdownMenuItem
                   onClick={() => setEditDialogOpen(true)}
                   className="cursor-pointer text-xs font-medium gap-2"
                 >
-                  <Pencil className="h-3.5 w-3.5 text-slate-500" />
+                  <Pencil className="h-3.5 w-3.5 text-slate-500 dark:text-slate-400" />
                   <span>Edit Board</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
@@ -166,7 +166,7 @@ export function Topbar({ onOpenMobileSidebar }: TopbarProps) {
               variant="darkPill"
               size="pillSm"
               onClick={() => setCreateDialogOpen(true)}
-              className="bg-[#1b4332] hover:bg-[#143627] gap-1 cursor-pointer"
+              className="bg-[#1b4332] hover:bg-[#143627] dark:bg-emerald-800 dark:hover:bg-emerald-900 gap-1 cursor-pointer"
             >
               <Plus className="h-3.5 w-3.5" />
               <span className="hidden md:inline">New board</span>
@@ -177,22 +177,22 @@ export function Topbar({ onOpenMobileSidebar }: TopbarProps) {
           {/* User Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="flex items-center gap-1.5 rounded-full p-1 hover:bg-slate-100 transition-colors outline-none cursor-pointer ml-1">
+              <button className="flex items-center gap-1.5 rounded-full p-1 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors outline-none cursor-pointer ml-1">
                 <Avatar className="h-7 w-7 border-0">
-                  <AvatarFallback className="bg-[#1b4332] text-emerald-100 text-[11px] font-bold">
+                  <AvatarFallback className="bg-[#1b4332] dark:bg-emerald-800 text-emerald-100 text-[11px] font-bold">
                     {initials}
                   </AvatarFallback>
                 </Avatar>
-                <span className="hidden sm:inline text-xs font-semibold text-slate-700 max-w-[100px] truncate">
+                <span className="hidden sm:inline text-xs font-semibold text-slate-700 dark:text-slate-300 max-w-[100px] truncate">
                   {userName.split(" ")[0]}
                 </span>
-                <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
+                <ChevronDown className="h-3.5 w-3.5 text-slate-400 dark:text-slate-500" />
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
               <DropdownMenuLabel>
-                <p className="font-semibold text-slate-900 truncate">{userName}</p>
-                <p className="text-[10px] text-slate-400 font-normal truncate">{userEmail}</p>
+                <p className="font-semibold text-slate-900 dark:text-slate-100 truncate">{userName}</p>
+                <p className="text-[10px] text-slate-400 dark:text-slate-500 font-normal truncate">{userEmail}</p>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Profile Settings</DropdownMenuItem>

@@ -461,7 +461,7 @@ export function KanbanBoard({
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
     >
-      <div className="flex flex-1 flex-col h-full overflow-hidden bg-[#F8FAFC]">
+      <div className="flex flex-1 flex-col h-full overflow-hidden bg-[#F8FAFC] dark:bg-[#0B1120] transition-colors">
         {/* Board Toolbar */}
         <BoardToolbar
           searchQuery={searchQuery}
@@ -478,34 +478,34 @@ export function KanbanBoard({
 
         {/* Filter Warning Banner */}
         {isFilterActive && (
-          <div className="flex items-center gap-2 px-4 md:px-6 py-2 bg-amber-50/90 border-b border-amber-200/70 text-amber-800 text-xs font-medium shrink-0">
-            <AlertCircle className="h-4 w-4 text-amber-600 shrink-0" />
+          <div className="flex items-center gap-2 px-4 md:px-6 py-2 bg-amber-50/90 border-b border-amber-200/70 text-amber-800 dark:bg-amber-950/40 dark:border-amber-800/60 dark:text-amber-300 text-xs font-medium shrink-0">
+            <AlertCircle className="h-4 w-4 text-amber-600 dark:text-amber-400 shrink-0" />
             <span>Task reordering is disabled while search or filters are active to prevent position ambiguity.</span>
           </div>
         )}
 
         {/* Main Board Columns Area */}
         {isLoading ? (
-          <div className="flex flex-1 items-center justify-center bg-[#F8FAFC]">
-            <div className="flex flex-col items-center gap-3 text-slate-400">
-              <Loader2 className="h-8 w-8 animate-spin text-emerald-800" />
-              <p className="text-xs font-semibold text-slate-500">Loading board...</p>
+          <div className="flex flex-1 items-center justify-center bg-[#F8FAFC] dark:bg-[#0B1120]">
+            <div className="flex flex-col items-center gap-3 text-slate-400 dark:text-slate-500">
+              <Loader2 className="h-8 w-8 animate-spin text-emerald-800 dark:text-emerald-500" />
+              <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">Loading board...</p>
             </div>
           </div>
         ) : boardError ? (
-          <div className="flex flex-1 items-center justify-center p-6 bg-[#F8FAFC]">
-            <div className="flex flex-col items-center text-center max-w-sm p-8 rounded-3xl bg-white border border-rose-200/80 shadow-xs space-y-4">
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-rose-50 text-rose-600">
+          <div className="flex flex-1 items-center justify-center p-6 bg-[#F8FAFC] dark:bg-[#0B1120]">
+            <div className="flex flex-col items-center text-center max-w-sm p-8 rounded-3xl bg-white dark:bg-slate-900 border border-rose-200/80 dark:border-rose-900/50 shadow-xs space-y-4">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400">
                 <AlertCircle className="h-7 w-7" />
               </div>
               <div className="space-y-1">
-                <h3 className="text-base font-bold text-slate-900">Failed to load board</h3>
-                <p className="text-xs text-slate-500">{boardError}</p>
+                <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">Failed to load board</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400">{boardError}</p>
               </div>
               {effectiveBoardId && (
                 <Button
                   onClick={() => fetchBoardData(effectiveBoardId)}
-                  className="bg-[#1b4332] hover:bg-[#143627] text-white rounded-xl text-xs font-semibold cursor-pointer"
+                  className="bg-[#1b4332] hover:bg-[#143627] dark:bg-emerald-800 dark:hover:bg-emerald-900 text-white rounded-xl text-xs font-semibold cursor-pointer"
                 >
                   Retry
                 </Button>
@@ -513,20 +513,20 @@ export function KanbanBoard({
             </div>
           </div>
         ) : columns.length === 0 ? (
-          <div className="flex flex-1 items-center justify-center p-6 bg-[#F8FAFC]">
-            <div className="flex flex-col items-center text-center max-w-sm p-8 rounded-3xl bg-white border border-slate-200/80 shadow-xs space-y-4">
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-800">
+          <div className="flex flex-1 items-center justify-center p-6 bg-[#F8FAFC] dark:bg-[#0B1120]">
+            <div className="flex flex-col items-center text-center max-w-sm p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-4">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-400">
                 <Columns3 className="h-7 w-7" />
               </div>
               <div className="space-y-1">
-                <h3 className="text-base font-bold text-slate-900">No columns yet</h3>
-                <p className="text-xs text-slate-500">
+                <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">No columns yet</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400">
                   Get started by adding columns to organize your tasks and workflow.
                 </p>
               </div>
               <Button
                 onClick={() => setIsAddColumnDialogOpen(true)}
-                className="bg-[#1b4332] hover:bg-[#143627] text-white rounded-xl text-xs font-semibold gap-1.5 cursor-pointer"
+                className="bg-[#1b4332] hover:bg-[#143627] dark:bg-emerald-800 dark:hover:bg-emerald-900 text-white rounded-xl text-xs font-semibold gap-1.5 cursor-pointer"
               >
                 <Plus className="h-4 w-4" />
                 <span>Add First Column</span>
@@ -561,12 +561,12 @@ export function KanbanBoard({
               {/* Add Column Button */}
               <div
                 onClick={() => setIsAddColumnDialogOpen(true)}
-                className="flex w-64 shrink-0 flex-col items-center justify-center rounded-3xl border border-dashed border-slate-200/90 bg-slate-50/50 p-6 text-slate-400 hover:border-slate-300 hover:bg-slate-100/50 hover:text-slate-600 transition-all cursor-pointer min-h-[140px]"
+                className="flex w-64 shrink-0 flex-col items-center justify-center rounded-3xl border border-dashed border-slate-200/90 bg-slate-50/50 text-slate-400 hover:border-slate-300 hover:bg-slate-100/50 hover:text-slate-600 dark:border-slate-800/90 dark:bg-slate-900/40 dark:hover:border-slate-700 dark:hover:bg-slate-800/50 dark:hover:text-slate-300 transition-all cursor-pointer min-h-[140px]"
               >
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white shadow-2xs border border-slate-200 mb-2">
-                  <Plus className="h-4 w-4 text-slate-500" />
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white dark:bg-slate-800 shadow-2xs border border-slate-200 dark:border-slate-700 mb-2">
+                  <Plus className="h-4 w-4 text-slate-500 dark:text-slate-400" />
                 </div>
-                <span className="text-xs font-semibold text-slate-600">Add column</span>
+                <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">Add column</span>
               </div>
             </div>
           </div>

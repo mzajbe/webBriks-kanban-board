@@ -45,7 +45,7 @@ export function TaskCard({
     <div
       onClick={() => onEditTask && onEditTask(task)}
       className={cn(
-        "group relative flex flex-col rounded-2xl border border-slate-200/80 bg-white p-4 shadow-xs transition-all duration-200 hover:shadow-md hover:border-slate-300 cursor-pointer select-none",
+        "group relative flex flex-col rounded-2xl border border-slate-200/80 bg-white dark:border-slate-800/90 dark:bg-slate-900 p-4 shadow-xs transition-all duration-200 hover:shadow-md hover:border-slate-300 dark:hover:border-slate-700 cursor-pointer select-none",
         isOverlay && "shadow-xl border-emerald-500 ring-2 ring-emerald-500/20 rotate-1 scale-[1.02]"
       )}
     >
@@ -59,29 +59,30 @@ export function TaskCard({
               <button
                 type="button"
                 onPointerDown={(e) => e.stopPropagation()}
-                className="opacity-0 group-hover:opacity-100 flex h-6 w-6 items-center justify-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-opacity cursor-pointer"
+                className="opacity-0 group-hover:opacity-100 flex h-6 w-6 items-center justify-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-300 transition-opacity cursor-pointer"
               >
                 <MoreHorizontal className="h-3.5 w-3.5" />
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-40">
+            <DropdownMenuContent align="end" className="w-40 dark:bg-slate-900 dark:border-slate-800">
               <DropdownMenuItem
+                className="dark:focus:bg-slate-800 dark:focus:text-slate-100"
                 onClick={(e) => {
                   e.stopPropagation();
                   onEditTask && onEditTask(task);
                 }}
               >
-                <Edit2 className="h-3.5 w-3.5 mr-2 text-slate-500" /> Edit Task
+                <Edit2 className="h-3.5 w-3.5 mr-2 text-slate-500 dark:text-slate-400" /> Edit Task
               </DropdownMenuItem>
               {onDeleteTask && (
                 <DropdownMenuItem
-                  className="text-rose-600 focus:text-rose-700 font-medium"
+                  className="text-rose-600 focus:text-rose-700 dark:text-rose-400 dark:focus:text-rose-300 font-medium"
                   onClick={(e) => {
                     e.stopPropagation();
                     onDeleteTask(task);
                   }}
                 >
-                  <Trash2 className="h-3.5 w-3.5 mr-2 text-rose-500" /> Delete Task
+                  <Trash2 className="h-3.5 w-3.5 mr-2 text-rose-500 dark:text-rose-400" /> Delete Task
                 </DropdownMenuItem>
               )}
             </DropdownMenuContent>
@@ -90,19 +91,19 @@ export function TaskCard({
       </div>
 
       {/* Task Title */}
-      <h3 className="mt-2.5 text-xs font-bold leading-snug text-slate-900 tracking-tight">
+      <h3 className="mt-2.5 text-xs font-bold leading-snug text-slate-900 dark:text-slate-100 tracking-tight">
         {task.title}
       </h3>
 
       {/* Task Description */}
       {task.description && (
-        <p className="mt-1.5 text-[11px] text-slate-500 font-normal leading-relaxed line-clamp-2">
+        <p className="mt-1.5 text-[11px] text-slate-500 dark:text-slate-400 font-normal leading-relaxed line-clamp-2">
           {task.description}
         </p>
       )}
 
       {/* Divider */}
-      <div className="my-3 border-t border-slate-100" />
+      <div className="my-3 border-t border-slate-100 dark:border-slate-800" />
 
       {/* Footer Row: Assignee + Due Date */}
       <div className="flex items-center justify-between gap-2">
@@ -113,8 +114,8 @@ export function TaskCard({
             className={cn(
               "flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium shrink-0",
               isUrgent
-                ? "bg-rose-50 text-rose-600 border border-rose-100"
-                : "bg-slate-50 text-slate-500 border border-slate-200/60"
+                ? "bg-rose-50 text-rose-600 border border-rose-100 dark:bg-rose-950/50 dark:text-rose-400 dark:border-rose-900/60"
+                : "bg-slate-50 text-slate-500 border border-slate-200/60 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700/60"
             )}
           >
             <Calendar className="h-3 w-3 text-rose-400" />
