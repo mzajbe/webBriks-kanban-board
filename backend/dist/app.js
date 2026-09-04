@@ -4,13 +4,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
+const helmet_1 = __importDefault(require("helmet"));
+const routes_1 = __importDefault(require("./app/routes"));
 const app = (0, express_1.default)();
+// Global Middlewares
+app.use((0, helmet_1.default)());
+app.use((0, cors_1.default)());
 app.use(express_1.default.json());
+// Application Routes
+app.use("/api", routes_1.default);
+// Root Route
 app.get("/", (_req, res) => {
-    res.status(200).json({ message: "API is running" });
-});
-app.get("/health", (_req, res) => {
-    res.status(200).json({ status: "ok" });
+    res.status(200).json({
+        success: true,
+        message: "Welcome to Mini Kanban API",
+    });
 });
 exports.default = app;
-//# sourceMappingURL=app.js.map
