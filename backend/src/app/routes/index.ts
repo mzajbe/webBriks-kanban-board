@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import { authRoutes } from "../modules/auth/auth.route";
+import { boardRoutes } from "../modules/board/board.route";
 
 const router = Router();
 
@@ -14,9 +15,11 @@ router.get("/health", (_req: Request, res: Response) => {
 // Authentication routes
 router.use("/auth", authRoutes);
 
+// Board routes
+router.use("/boards", boardRoutes);
+
 // Future module routes:
 // router.use("/users", userRoutes);
-// router.use("/boards", boardRoutes);
 // router.use("/columns", columnRoutes);
 // router.use("/tasks", taskRoutes);
 
