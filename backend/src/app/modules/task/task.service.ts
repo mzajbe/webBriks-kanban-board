@@ -128,10 +128,10 @@ export const taskService = {
       throw new AppError(404, "Task not found");
     }
 
-    // 2. Verify user access to board
-    const hasAccess = await boardService.canAccessBoard(userId, task.boardId);
-    if (!hasAccess) {
-      throw new AppError(403, "Access denied to this board");
+    // 2. Verify only board owner can update task
+    const isOwner = await boardService.isBoardOwner(userId, task.boardId);
+    if (!isOwner) {
+      throw new AppError(403, "Only the board owner can update tasks");
     }
 
     // 3. If updating assignee, verify user exists
@@ -176,10 +176,10 @@ export const taskService = {
       throw new AppError(404, "Task not found");
     }
 
-    // 2. Verify user access to board
-    const hasAccess = await boardService.canAccessBoard(userId, task.boardId);
-    if (!hasAccess) {
-      throw new AppError(403, "Access denied to this board");
+    // 2. Verify only board owner can delete task
+    const isOwner = await boardService.isBoardOwner(userId, task.boardId);
+    if (!isOwner) {
+      throw new AppError(403, "Only the board owner can delete tasks");
     }
 
     // 3. Delete task and shift remaining positions in a transaction

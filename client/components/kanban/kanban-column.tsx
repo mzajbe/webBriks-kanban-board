@@ -70,6 +70,7 @@ interface KanbanColumnProps {
   columnIndex?: number;
   isHighlighted?: boolean;
   isDragDisabled?: boolean;
+  isOwner?: boolean;
   onDeleteTask?: (task: Task) => void;
   onEditTask?: (task: Task) => void;
   onRenameColumn?: (column: Column) => void;
@@ -82,6 +83,7 @@ export function KanbanColumn({
   columnIndex = 0,
   isHighlighted = false,
   isDragDisabled = false,
+  isOwner = true,
   onDeleteTask,
   onEditTask,
   onRenameColumn,
@@ -127,29 +129,31 @@ export function KanbanColumn({
           </span>
         </div>
 
-        <div className="flex items-center gap-0.5">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button
-                onPointerDown={(e) => e.stopPropagation()}
-                className="flex h-6 w-6 items-center justify-center rounded-full text-slate-400 hover:bg-white/80 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-300 transition-colors cursor-pointer"
-              >
-                <MoreHorizontal className="h-3.5 w-3.5" />
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-44 dark:bg-slate-900 dark:border-slate-800">
-              <DropdownMenuItem onClick={() => onRenameColumn && onRenameColumn(column)} className="dark:focus:bg-slate-800 dark:focus:text-slate-100">
-                <Edit2 className="h-3.5 w-3.5 mr-2 text-slate-500 dark:text-slate-400" /> Rename Column
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="text-rose-600 focus:text-rose-700 dark:text-rose-400 dark:focus:text-rose-300 font-medium"
-                onClick={() => onDeleteColumn && onDeleteColumn(column)}
-              >
-                <Trash2 className="h-3.5 w-3.5 mr-2 text-rose-500 dark:text-rose-400" /> Delete Column
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+        {isOwner && (
+          <div className="flex items-center gap-0.5">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  onPointerDown={(e) => e.stopPropagation()}
+                  className="flex h-6 w-6 items-center justify-center rounded-full text-slate-400 hover:bg-white/80 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-300 transition-colors cursor-pointer"
+                >
+                  <MoreHorizontal className="h-3.5 w-3.5" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-44 dark:bg-slate-900 dark:border-slate-800">
+                <DropdownMenuItem onClick={() => onRenameColumn && onRenameColumn(column)} className="dark:focus:bg-slate-800 dark:focus:text-slate-100">
+                  <Edit2 className="h-3.5 w-3.5 mr-2 text-slate-500 dark:text-slate-400" /> Rename Column
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="text-rose-600 focus:text-rose-700 dark:text-rose-400 dark:focus:text-rose-300 font-medium"
+                  onClick={() => onDeleteColumn && onDeleteColumn(column)}
+                >
+                  <Trash2 className="h-3.5 w-3.5 mr-2 text-rose-500 dark:text-rose-400" /> Delete Column
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        )}
       </div>
 
       {/* Cards List Container */}
@@ -168,6 +172,7 @@ export function KanbanColumn({
                 disabled={isDragDisabled}
                 onDeleteTask={onDeleteTask}
                 onEditTask={onEditTask}
+                isOwner={isOwner}
               />
             ))
           )}

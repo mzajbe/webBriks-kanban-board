@@ -23,7 +23,6 @@ export function NeumorphicAuth({ initialMode = "login" }: NeumorphicAuthProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
-  const [agreeTerms, setAgreeTerms] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -71,10 +70,6 @@ export function NeumorphicAuth({ initialMode = "login" }: NeumorphicAuthProps) {
       }
       if (password !== confirmPassword) {
         setErrorMessage("Passwords do not match.");
-        return;
-      }
-      if (!agreeTerms) {
-        setErrorMessage("You must agree to the Terms of Service.");
         return;
       }
 
@@ -310,51 +305,7 @@ export function NeumorphicAuth({ initialMode = "login" }: NeumorphicAuthProps) {
               </div>
             )}
 
-            {/* Checkbox Options: Remember Me vs Terms */}
-            {!isRegister ? (
-              <div className="flex items-center gap-2.5 px-1 py-1">
-                <button
-                  type="button"
-                  onClick={() => setRememberMe(!rememberMe)}
-                  className={`flex h-5 w-5 items-center justify-center rounded-lg transition-all ${
-                    rememberMe ? "neu-pill-active text-emerald-800" : "neu-btn"
-                  }`}
-                >
-                  {rememberMe && <span className="h-2 w-2 rounded-sm bg-emerald-800" />}
-                </button>
-                <span
-                  onClick={() => setRememberMe(!rememberMe)}
-                  className="text-xs font-medium text-slate-600 dark:text-slate-300 cursor-pointer select-none"
-                >
-                  Keep me signed in for 30 days
-                </span>
-              </div>
-            ) : (
-              <div className="flex items-start gap-2.5 px-1 py-1.5">
-                <button
-                  type="button"
-                  onClick={() => setAgreeTerms(!agreeTerms)}
-                  className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-lg transition-all ${
-                    agreeTerms ? "neu-pill-active text-emerald-800" : "neu-btn"
-                  }`}
-                >
-                  {agreeTerms && <span className="h-2 w-2 rounded-sm bg-emerald-800" />}
-                </button>
-                <span
-                  onClick={() => setAgreeTerms(!agreeTerms)}
-                  className="text-xs font-normal text-slate-600 dark:text-slate-300 cursor-pointer select-none leading-tight"
-                >
-                  I agree to the{" "}
-                  <a href="#" className="font-semibold text-emerald-800 dark:text-emerald-400 hover:underline">
-                    Terms of Service
-                  </a>{" "}
-                  and{" "}
-                  <a href="#" className="font-semibold text-emerald-800 dark:text-emerald-400 hover:underline">
-                    Privacy Policy
-                  </a>.
-                </span>
-              </div>
-            )}
+            
 
             {/* Primary Submit Button */}
             <button
@@ -405,7 +356,7 @@ export function NeumorphicAuth({ initialMode = "login" }: NeumorphicAuthProps) {
 
         {/* Footer copyright */}
         <p className="mt-6 text-center text-[11px] text-slate-400 dark:text-slate-500">
-          &copy; {new Date().getFullYear()} webBriks SaaS. Soft Neumorphism UI.
+          &copy; {new Date().getFullYear()} webBriks.
         </p>
       </div>
     </div>

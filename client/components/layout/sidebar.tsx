@@ -46,8 +46,7 @@ export function Sidebar({ className, onNavigateBoard }: SidebarProps) {
   const menuItems = [
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
     { id: "my-tasks", label: "My Tasks", icon: CheckSquare },
-    { id: "calendar", label: "Calendar", icon: Calendar },
-    { id: "team", label: "Team", icon: Users },
+    
   ];
 
   const generalItems = [
@@ -233,20 +232,7 @@ export function Sidebar({ className, onNavigateBoard }: SidebarProps) {
           </div>
         </div>
 
-        {/* Promo AI Banner Card */}
-        <div className="mt-3 mb-3">
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#1b4332] via-[#2d6a4f] to-[#143627] p-3 text-white shadow-md border border-emerald-800/40 dark:border-emerald-700/50">
-            <div className="mb-2 flex h-7 w-7 items-center justify-center rounded-full bg-white/20 backdrop-blur-xs">
-              <Sparkles className="h-3.5 w-3.5 text-emerald-200" />
-            </div>
-            <h4 className="text-xs font-bold tracking-tight text-white">
-              Plan with AI
-            </h4>
-            <p className="mt-1 text-[11px] text-emerald-100/85 leading-tight font-normal">
-              Turn a goal into a backlog in seconds.
-            </p>
-          </div>
-        </div>
+        
 
         {/* User Profile Footer */}
         <div className="pt-2 border-t border-slate-100 dark:border-slate-800/80 flex items-center gap-2.5 px-1">

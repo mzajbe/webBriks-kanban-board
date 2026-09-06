@@ -56,6 +56,7 @@ export function KanbanBoard({
 }: KanbanBoardProps) {
   const { activeBoard, members } = useBoards();
   const effectiveBoardId = propBoardId || activeBoard?.id;
+  const isBoardOwner = activeBoard?.isOwner ?? false;
 
   const [columns, setColumns] = useState<Column[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -550,24 +551,27 @@ export function KanbanBoard({
                     tasks={columnTasks}
                     isHighlighted={overColumnId === col.id}
                     isDragDisabled={isFilterActive}
-                    onDeleteTask={(t) => setDeletingTask(t)}
-                    onEditTask={handleEditTask}
-                    onRenameColumn={(c) => setRenamingColumn(c)}
-                    onDeleteColumn={(c) => setDeletingColumn(c)}
+                    isOwner={isBoardOwner}
+                    onDeleteTask={isBoardOwner ? (t) => setDeletingTask(t) : undefined}
+                    onEditTask={isBoardOwner ? handleEditTask : undefined}
+                    onRenameColumn={isBoardOwner ? (c) => setRenamingColumn(c) : undefined}
+                    onDeleteColumn={isBoardOwner ? (c) => setDeletingColumn(c) : undefined}
                   />
                 );
               })}
 
-              {/* Add Column Button */}
-              <div
-                onClick={() => setIsAddColumnDialogOpen(true)}
-                className="flex w-64 shrink-0 flex-col items-center justify-center rounded-3xl border border-dashed border-slate-200/90 bg-slate-50/50 text-slate-400 hover:border-slate-300 hover:bg-slate-100/50 hover:text-slate-600 dark:border-slate-800/90 dark:bg-slate-900/40 dark:hover:border-slate-700 dark:hover:bg-slate-800/50 dark:hover:text-slate-300 transition-all cursor-pointer min-h-[140px]"
-              >
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white dark:bg-slate-800 shadow-2xs border border-slate-200 dark:border-slate-700 mb-2">
-                  <Plus className="h-4 w-4 text-slate-500 dark:text-slate-400" />
+              {/* Add Column Button (Only for Board Owner) */}
+              {isBoardOwner && (
+                <div
+                  onClick={() => setIsAddColumnDialogOpen(true)}
+                  className="flex w-64 shrink-0 flex-col items-center justify-center rounded-3xl border border-dashed border-slate-200/90 bg-slate-50/50 text-slate-400 hover:border-slate-300 hover:bg-slate-100/50 hover:text-slate-600 dark:border-slate-800/90 dark:bg-slate-900/40 dark:hover:border-slate-700 dark:hover:bg-slate-800/50 dark:hover:text-slate-300 transition-all cursor-pointer min-h-[140px]"
+                >
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white dark:bg-slate-800 shadow-2xs border border-slate-200 dark:border-slate-700 mb-2">
+                    <Plus className="h-4 w-4 text-slate-500 dark:text-slate-400" />
+                  </div>
+                  <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">Add column</span>
                 </div>
-                <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">Add column</span>
-              </div>
+              )}
             </div>
           </div>
         )}

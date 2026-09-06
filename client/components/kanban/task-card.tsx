@@ -18,6 +18,7 @@ interface TaskCardProps {
   onDeleteTask?: (task: Task) => void;
   onEditTask?: (task: Task) => void;
   isOverlay?: boolean;
+  isOwner?: boolean;
 }
 
 function formatDueDate(dueDateStr: string): string {
@@ -38,14 +39,16 @@ export function TaskCard({
   onDeleteTask,
   onEditTask,
   isOverlay = false,
+  isOwner = true,
 }: TaskCardProps) {
   const isUrgent = task.priority === "URGENT";
 
   return (
     <div
-      onClick={() => onEditTask && onEditTask(task)}
+      onClick={() => isOwner && onEditTask && onEditTask(task)}
       className={cn(
-        "group relative flex flex-col rounded-2xl border border-slate-200/80 bg-white dark:border-slate-800/90 dark:bg-slate-900 p-4 shadow-xs transition-all duration-200 hover:shadow-md hover:border-slate-300 dark:hover:border-slate-700 cursor-pointer select-none",
+        "group relative flex flex-col rounded-2xl border border-slate-200/80 bg-white dark:border-slate-800/90 dark:bg-slate-900 p-4 shadow-xs transition-all duration-200 hover:shadow-md hover:border-slate-300 dark:hover:border-slate-700 select-none",
+        isOwner ? "cursor-pointer" : "cursor-default",
         isOverlay && "shadow-xl border-emerald-500 ring-2 ring-emerald-500/20 rotate-1 scale-[1.02]"
       )}
     >
@@ -53,41 +56,45 @@ export function TaskCard({
       <div className="flex items-center justify-between gap-2">
         <TaskPriority priority={task.priority} />
 
-        <div className="flex items-center gap-1">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
-              <button
-                type="button"
-                onPointerDown={(e) => e.stopPropagation()}
-                className="opacity-0 group-hover:opacity-100 flex h-6 w-6 items-center justify-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-300 transition-opacity cursor-pointer"
-              >
-                <MoreHorizontal className="h-3.5 w-3.5" />
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-40 dark:bg-slate-900 dark:border-slate-800">
-              <DropdownMenuItem
-                className="dark:focus:bg-slate-800 dark:focus:text-slate-100"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onEditTask && onEditTask(task);
-                }}
-              >
-                <Edit2 className="h-3.5 w-3.5 mr-2 text-slate-500 dark:text-slate-400" /> Edit Task
-              </DropdownMenuItem>
-              {onDeleteTask && (
-                <DropdownMenuItem
-                  className="text-rose-600 focus:text-rose-700 dark:text-rose-400 dark:focus:text-rose-300 font-medium"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onDeleteTask(task);
-                  }}
+        {isOwner && (onEditTask || onDeleteTask) && (
+          <div className="flex items-center gap-1">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+                <button
+                  type="button"
+                  onPointerDown={(e) => e.stopPropagation()}
+                  className="opacity-0 group-hover:opacity-100 flex h-6 w-6 items-center justify-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-300 transition-opacity cursor-pointer"
                 >
-                  <Trash2 className="h-3.5 w-3.5 mr-2 text-rose-500 dark:text-rose-400" /> Delete Task
-                </DropdownMenuItem>
-              )}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+                  <MoreHorizontal className="h-3.5 w-3.5" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-40 dark:bg-slate-900 dark:border-slate-800">
+                {onEditTask && (
+                  <DropdownMenuItem
+                    className="dark:focus:bg-slate-800 dark:focus:text-slate-100"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onEditTask(task);
+                    }}
+                  >
+                    <Edit2 className="h-3.5 w-3.5 mr-2 text-slate-500 dark:text-slate-400" /> Edit Task
+                  </DropdownMenuItem>
+                )}
+                {onDeleteTask && (
+                  <DropdownMenuItem
+                    className="text-rose-600 focus:text-rose-700 dark:text-rose-400 dark:focus:text-rose-300 font-medium"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onDeleteTask(task);
+                    }}
+                  >
+                    <Trash2 className="h-3.5 w-3.5 mr-2 text-rose-500 dark:text-rose-400" /> Delete Task
+                  </DropdownMenuItem>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        )}
       </div>
 
       {/* Task Title */}

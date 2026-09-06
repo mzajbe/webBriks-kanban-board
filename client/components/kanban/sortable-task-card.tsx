@@ -12,6 +12,7 @@ interface SortableTaskCardProps {
   disabled?: boolean;
   onDeleteTask?: (task: Task) => void;
   onEditTask?: (task: Task) => void;
+  isOwner?: boolean;
 }
 
 export function SortableTaskCard({
@@ -19,6 +20,7 @@ export function SortableTaskCard({
   disabled = false,
   onDeleteTask,
   onEditTask,
+  isOwner = true,
 }: SortableTaskCardProps) {
   const {
     attributes,
@@ -58,6 +60,7 @@ export function SortableTaskCard({
         task={task}
         onDeleteTask={onDeleteTask}
         onEditTask={onEditTask}
+        isOwner={isOwner}
       />
     </div>
   );
