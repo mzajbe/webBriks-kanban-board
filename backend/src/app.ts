@@ -34,8 +34,9 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 
-// Application Routes
+// Application Routes (support both /api/* and direct root /* routing on Vercel)
 app.use("/api", router);
+app.use("/", router);
 
 // Root Route
 app.get("/", (_req: Request, res: Response) => {
