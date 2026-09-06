@@ -25,10 +25,11 @@ export const authController = {
       const validatedData = loginSchema.parse(req.body);
       const { accessToken, user } = await authService.loginUser(validatedData);
 
+      const isProd = env.NODE_ENV === "production";
       res.cookie("accessToken", accessToken, {
         httpOnly: true,
-        sameSite: "lax",
-        secure: env.NODE_ENV === "production",
+        sameSite: isProd ? "none" : "lax",
+        secure: isProd,
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
 
@@ -63,10 +64,11 @@ export const authController = {
 
   async logout(_req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
+      const isProd = env.NODE_ENV === "production";
       res.clearCookie("accessToken", {
         httpOnly: true,
-        sameSite: "lax",
-        secure: env.NODE_ENV === "production",
+        sameSite: isProd ? "none" : "lax",
+        secure: isProd,
       });
 
       res.status(200).json({
